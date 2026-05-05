@@ -1,7 +1,20 @@
+import { Scanner } from "@yudiel/react-qr-scanner";
+import { useNavigate } from "react-router-dom";
+
 export default function ScannerView() {
+  const navigate = useNavigate();
+
   return (
     <>
-      <h1>Scan QR-Code</h1>
+      <Scanner
+        onScan={(result) =>
+          result.forEach((element) => {
+            console.log(element.rawValue);
+            navigate("/FloatingFrame");
+          })
+        }
+        onError={(error) => console.log(error)}
+      />
     </>
   );
 }
