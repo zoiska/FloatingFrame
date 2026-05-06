@@ -1,14 +1,20 @@
 @import "tailwindcss";
 
-* {
+@theme {
+  --font-hel: Helvetica, sans-serif;
+}
+
+@font-face {
+  font-family: Helvetica;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/HELVETICASCHOOL.TTF") format("truetype");
+}
+
+html {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
 }
