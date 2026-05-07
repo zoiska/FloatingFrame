@@ -1,7 +1,7 @@
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Header from "../components/Header";
+import Header from "../components/ScannerHeader";
 
 export default function ScannerView() {
   let [orientation, setOrientation] = useState("portrait");
