@@ -1,15 +1,29 @@
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Header from "../components/Header";
 
 export default function ScannerView() {
+  let [orientation, setOrientation] = useState("portrait");
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    function handleRotation() {
+      setOrientation(screen.orientation.type);
+    }
+    screen.orientation.addEventListener("change", handleRotation);
+    return () => {
+      screen.orientation.removeEventListener("change", handleRotation);
+    };
+  }, []);
 
   const customFinder = (detectedCodes, ctx) => {
     detectedCodes.forEach((detectedCode) => {
       const { cornerPoints } = detectedCode;
 
       //
-      // Le coins de chercheur
+      // Les coins de chercheur
       //  ____________________
       // |        |           |
       // |            BoxOne  |
@@ -59,30 +73,35 @@ export default function ScannerView() {
   };
 
   return (
-    <div className="h-dvh w-screen pt-6 pb-6 border-red-600 border-4">
-      <div className="flex flex-col justify-self-center items-center w-[80%] h-full overflow-hidden border-4 border-green-600 relative">
-        <h1 className="font-hel font-extrabold text-3xl">Scan a QR-Code</h1>
-        <Scanner
-          onScan={(results) => {
-            results.forEach((result) => {
-              console.log(result.rawValue);
-              navigate("/FloatingFrame");
-            });
-          }}
-          constraints={{
-            facingMode: "environment",
-            aspectRatio: 1,
-          }}
-          components={{
-            tracker: customFinder,
-            finder: false,
-          }}
-          sound={false}
-          styles={{
-            container: {},
-            video: {},
-          }}
-        />
+    <div
+      className={`flex absolute flex-col items-center w-screen ${orientation == "portrait" || orientation == "portrait-primary" ? "h-dvh" : "max-h-min"}`}
+    >
+      <Header />
+
+      <div className="flex w-full h-full justify-center items-center">
+        <div className="flex justify-center items-center w-[90%]  overflow-hidden">
+          <Scanner
+            onScan={(results) => {
+              results.forEach((result) => {
+                console.log(result.rawValue);
+                navigate("/FloatingFrame");
+              });
+            }}
+            constraints={{
+              facingMode: "environment",
+              aspectRatio: 1,
+            }}
+            components={{
+              tracker: customFinder,
+              finder: false,
+            }}
+            sound={false}
+            styles={{
+              container: {},
+              video: {},
+            }}
+          />
+        </div>
       </div>
     </div>
   );
