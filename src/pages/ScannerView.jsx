@@ -6,22 +6,54 @@ export default function ScannerView() {
 
   const customFinder = (detectedCodes, ctx) => {
     detectedCodes.forEach((detectedCode) => {
-      const { boundingBox } = detectedCode;
+      const { cornerPoints } = detectedCode;
 
-      // Draw bounding box
-      ctx.strokeStyle = "#00FF00";
-      ctx.lineWidth = 4;
-      ctx.strokeRect(
-        boundingBox.x,
-        boundingBox.y,
-        boundingBox.width,
-        boundingBox.height,
-      );
+      //
+      // Le coins de chercheur
+      //  ____________________
+      // |        |           |
+      // |            BoxOne  |
+      // |_ _ _ _ |___________|
+      // |        |
+      // |        |
+      // | BoxTwo |
+      // |        |
+      // |________|
+      //
+
+      let i = 0;
+
+      // finder bigger than qrCode
+      let xOffsetOne = -5;
+      let yOffsetOne = -5;
+
+      let xOffsetTwo = -5;
+      let yOffsetTwo = -5;
 
       ctx.fillStyle = "#000000";
-      detectedCode.forEach((point) => {
-        ctx.fillRect(point.x - 5, point.y - 5, 25, 5);
-        ctx.fillRect(point.x - 5, point.y - 5, 5, 25);
+      cornerPoints.forEach((point) => {
+        ctx.save();
+        ctx.translate(point.x, point.y);
+        switch (i) {
+          case 0:
+            undefined;
+            break;
+          case 1:
+            ctx.rotate((90 * Math.PI) / 180);
+            break;
+          case 2:
+            ctx.rotate((180 * Math.PI) / 180);
+            break;
+          case 3:
+            ctx.rotate((270 * Math.PI) / 180);
+            i = 0;
+            break;
+        }
+        ctx.fillRect(xOffsetOne, yOffsetOne, 25, 5);
+        ctx.fillRect(xOffsetTwo, yOffsetTwo, 5, 25);
+        ctx.translate(-point.x, -point.y);
+        ctx.restore();
+        i++;
       });
     });
   };
