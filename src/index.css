@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --font-hel: Helvetica, sans-serif;
+  --color-brand-bg: #0f172a;
+  --color-brand-blue: #93c5fd;
+  --color-brand-green: #86efac;
+  --color-brand-red: #f87171;
+  --color-brand-yellow: #facc15;
 }
 
 @font-face {
@@ -17,4 +21,6 @@ html {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #0f172a;
+  color: white;
 }
