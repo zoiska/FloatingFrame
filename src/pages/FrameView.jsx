@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import BoxFrame from "../components/BoxFrame";
 import NotebookModel from "../components/NotebookModel";
+import cooldatabase from "/assets/cooldatabase.json";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         </Canvas>
       </div>
       <div className="detailsContainer h-5/10 w-full border-red-600 border-2">
+        <pre>{JSON.stringify(cooldatabase, null, 2)}</pre>
         {/** tbd: animation, dynamic frameheight, details height, close details */}
       </div>
     </div>
