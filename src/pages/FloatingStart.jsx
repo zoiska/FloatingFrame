@@ -44,6 +44,13 @@ export default function FloatingStart() {
         © 2026 FloatingFrame – Zam-Monitoring
       </p>
 
+          <button
+        onClick={() => navigate("/officetest")}
+        className="absolute bottom-4 right-4 px-4 py-2 border border-white/20 text-white/70 text-sm rounded hover:opacity-80 transition"
+      >
+        Office-Test
+      </button>
+
       {/* FAQ Button unten links */}
       <button
         onClick={() => setFaqOpen(true)}

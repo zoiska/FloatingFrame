@@ -5,6 +5,7 @@ import FloatingStart from "./pages/FloatingStart";
 import ThemeTest from "./pages/ThemeTest";
 import { useEffect } from "react";
 import eruda from "eruda";
+import OfficeTest from "./pages/OfficeTest";
 
 export default function App() {
   useEffect(() => {
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/FloatingFrame" element={<FrameView />} />
         <Route path="/start" element={<FloatingStart />} />
         <Route path="/test" element={<ThemeTest />} />
+        <Route path="/officetest" element={<OfficeTest />} />
       </Routes>
     </>
   );

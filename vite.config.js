@@ -6,6 +6,7 @@ import fs from "fs";
 
 // https://vite.dev/config/
 export default defineConfig({
+  assetsInclude: ["**/*.glb"],
   plugins: [
     tailwindcss(),
     react(),
