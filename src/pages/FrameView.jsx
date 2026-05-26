@@ -1,9 +1,12 @@
 import { Canvas } from "@react-three/fiber";
+import { useContext } from "react";
 import BoxFrame from "../components/BoxFrame";
 import NotebookModel from "../components/NotebookModel";
-import cooldatabase from "/assets/cooldatabase.json";
+import { ScannedCodesContext } from "../contexts/ScannedCodesContext";
 
 export default function App() {
+  const { scannedCodes } = useContext(ScannedCodesContext);
+
   return (
     <div className="mainContainer h-dvh w-full">
       <div className="switchContainer h-1/10 w-full border-pink-600 border-2">
@@ -17,8 +20,12 @@ export default function App() {
           <NotebookModel position={[0, -0.6, 2]} rotation={[0, -0.7, 0]} scale={0.3} />
         </Canvas>
       </div>
-      <div className="detailsContainer h-5/10 w-full border-red-600 border-2">
-        <pre>{JSON.stringify(cooldatabase, null, 2)}</pre>
+      <div className="detailsContainer h-5/10 w-full border-red-600 border-2 wrap-anywhere overflow-auto">
+        <div className="whitespace-break-spaces p-2">
+          {scannedCodes.map((code, index) => (
+            <pre key={index}>{JSON.stringify(code, null, 2)}</pre>
+          ))}
+        </div>
         {/** tbd: animation, dynamic frameheight, details height, close details */}
       </div>
     </div>
