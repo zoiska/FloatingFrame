@@ -23,7 +23,15 @@ export default function App() {
       <div className="detailsContainer h-5/10 w-full border-red-600 border-2 wrap-anywhere overflow-auto">
         <div className="whitespace-break-spaces p-2">
           {scannedCodes.map((code, index) => (
-            <pre key={index}>{JSON.stringify(code, null, 2)}</pre>
+            <pre key={index}>
+              {Object.entries(code)
+                .map(([key, value]) => {
+                  let remUnderscores = key.replaceAll("_", " ");
+                  let newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
+                  return `${newLabel}: ${value}`;
+                })
+                .join("\n")}
+            </pre>
           ))}
         </div>
         {/** tbd: animation, dynamic frameheight, details height, close details */}
