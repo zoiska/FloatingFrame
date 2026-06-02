@@ -1,15 +1,28 @@
 import { Canvas } from "@react-three/fiber";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import BoxFrame from "../components/BoxFrame";
 import NotebookModel from "../components/NotebookModel";
 import { ScannedCodesContext } from "../contexts/ScannedCodesContext";
 import { Patchpanel } from "../react_assets/Patchpanel";
 
 export default function App() {
+  let [orientation, setOrientation] = useState("portrait");
   const { scannedCodes } = useContext(ScannedCodesContext);
 
+  useEffect(() => {
+    function handleRotation() {
+      setOrientation(screen.orientation.type);
+    }
+    screen.orientation.addEventListener("change", handleRotation);
+    return () => {
+      screen.orientation.removeEventListener("change", handleRotation);
+    };
+  }, []);
+
   return (
-    <div className="mainContainer h-dvh w-full">
+    <div
+      className={`mainContainer w-full ${orientation == "portrait" || orientation == "portrait-primary" ? "h-dvh" : "max-h-min"}`}
+    >
       <div className="switchContainer h-1/10 w-full justify-center">
         <Patchpanel />
       </div>
