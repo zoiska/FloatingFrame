@@ -1,9 +1,11 @@
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Header from "../components/ScannerHeader";
+import { ScannedCodesContext } from "../contexts/ScannedCodesContext";
 
 export default function ScannerView() {
+  const { setScannedCodes } = useContext(ScannedCodesContext);
   let [orientation, setOrientation] = useState("portrait");
 
   const navigate = useNavigate();
@@ -38,11 +40,7 @@ export default function ScannerView() {
       let i = 0;
 
       // finder bigger than qrCode
-      let xOffsetOne = -5;
-      let yOffsetOne = -5;
-
-      let xOffsetTwo = -5;
-      let yOffsetTwo = -5;
+      const offset = -5;
 
       ctx.fillStyle = "#000000";
       cornerPoints.forEach((point) => {
@@ -63,12 +61,22 @@ export default function ScannerView() {
             i = 0;
             break;
         }
-        ctx.fillRect(xOffsetOne, yOffsetOne, 25, 5);
-        ctx.fillRect(xOffsetTwo, yOffsetTwo, 5, 25);
+        ctx.fillRect(offset, offset, 25, 5);
+        ctx.fillRect(offset, offset, 5, 25);
         ctx.translate(-point.x, -point.y);
         ctx.restore();
         i++;
       });
+    });
+  };
+
+  const handleScan = (detectedCodes) => {
+    detectedCodes.forEach((code) => {
+      const parsed = JSON.parse(code.rawValue);
+
+      setScannedCodes((prev) => [...prev, parsed]);
+
+      navigate("/FloatingFrame");
     });
   };
 
@@ -81,12 +89,10 @@ export default function ScannerView() {
       <div className="flex w-full h-full justify-center items-center">
         <div className="flex justify-center items-center w-[90%]  overflow-hidden">
           <Scanner
-            onScan={(results) => {
-              results.forEach((result) => {
-                console.log(result.rawValue);
-                navigate("/FloatingFrame");
-              });
-            }}
+            onError={(error) => console.log(error)} // is this real error handling?
+            onScan={handleScan}
+            scanDelay={500} // in ms
+            allowMultiple={false}
             constraints={{
               facingMode: "environment",
               aspectRatio: 1,

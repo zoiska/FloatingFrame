@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "manufacturer": "Lenovo",
+  "hostname": "PC-01",
+  "ip_address": "102.168.1.1",
+  "mac_address": "00:1a:2b:3c:4d:5e",
+  "cpu_name": "Intel Core i5-12400",
+  "ram_size": 16,
+  "storage_size": 512,
+  "created_at": "2026-05-12 19:12:43.766264+02",
+  "qr_code_id": 1
+}
