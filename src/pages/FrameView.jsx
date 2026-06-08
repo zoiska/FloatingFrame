@@ -24,7 +24,15 @@ export default function App() {
     <div
       className={`mainContainer w-full ${orientation == "portrait" || orientation == "portrait-primary" ? "h-dvh" : "max-h-min"}`}
     >
-      <div className="switchContainer h-1/10 w-full justify-center">
+      <div
+        className={` switchContainer h-1/10 w-full justify-center
+        top-0 left-0 right-0
+
+        transform transition-all duration-500 ease-out
+
+        ${isDetailsOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
+      `}
+      >
         <Patchpanel />
       </div>
       <div className="frameContainer h-4/10">
@@ -41,9 +49,8 @@ export default function App() {
         </Canvas>
       </div>
       <div
-        className="  "
         className={` detailsContainer h-5/10 w-full wrap-anywhere overflow-auto
-        fixed bottom-0 left-0 right-0
+        bottom-0 left-0 right-0
 
         transform transition-all duration-500 ease-out
 
