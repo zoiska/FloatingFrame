@@ -40,16 +40,18 @@ export default function App() {
           <directionalLight position={[2, 2, 2]} intensity={1.5} />
           <ambientLight intensity={1} />
           <BoxFrame rotation="0.7854" color="white" />
-          <NotebookModel
-            position={[0, -0.6, 2]}
-            rotation={[0, -0.7, 0]}
-            scale={0.3}
-            onClick={() => setDetailsOpen(true)}
-          />
+          {scannedCodes.map((code, index) => (
+            <NotebookModel
+              position={[(index - (scannedCodes.length - 1) / 2) * 1.2, -0.6, 2]}
+              rotation={[0, -0.7, 0]}
+              scale={0.3}
+              onClick={() => setDetailsOpen(true)}
+            />
+          ))}
         </Canvas>
       </div>
       <div
-        className={` detailsContainer h-5/10 w-full wrap-anywhere overflow-auto
+        className={`detailsContainer h-5/10 w-full wrap-anywhere overflow-auto
         bottom-0 left-0 right-0
 
         transform transition-all duration-500 ease-out
