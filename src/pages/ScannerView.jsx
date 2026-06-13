@@ -2,10 +2,10 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import Header from "../components/ScannerHeader";
-import { ScannedCodesContext } from "../contexts/ScannedCodesContext";
+import { ScannedCodesArrayContext } from "../contexts/ScannedCodesArrayContext";
 
 export default function ScannerView() {
-  const { setScannedCodes } = useContext(ScannedCodesContext);
+  const { setScannedCodesArray } = useContext(ScannedCodesArrayContext);
   let [orientation, setOrientation] = useState("portrait");
 
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ export default function ScannerView() {
     detectedCodes.forEach((code) => {
       const parsed = JSON.parse(code.rawValue);
 
-      setScannedCodes((prev) => [...prev, parsed]);
+      setScannedCodesArray((prev) => [...prev, parsed]);
 
       navigate("/FloatingFrame");
     });
