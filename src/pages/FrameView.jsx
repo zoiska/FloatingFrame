@@ -2,13 +2,13 @@ import { Canvas } from "@react-three/fiber";
 import { useContext, useEffect, useState } from "react";
 import BoxFrame from "../components/BoxFrame";
 import NotebookModel from "../components/NotebookModel";
-import { ScannedCodesContext } from "../contexts/ScannedCodesContext";
+import { ScannedCodesArrayContext } from "../contexts/ScannedCodesArrayContext";
 import { Patchpanel } from "../react_assets/Patchpanel";
 
 export default function App() {
   let [orientation, setOrientation] = useState("portrait");
   const [isDetailsOpen, setDetailsOpen] = useState(false);
-  const { scannedCodes } = useContext(ScannedCodesContext);
+  const { scannedCodesArray } = useContext(ScannedCodesArrayContext);
 
   useEffect(() => {
     function handleRotation() {
@@ -40,11 +40,12 @@ export default function App() {
           <directionalLight position={[2, 2, 2]} intensity={1.5} />
           <ambientLight intensity={1} />
           <BoxFrame rotation="0.7854" color="white" />
-          {scannedCodes.map((code, index) => (
+          {scannedCodesArray.flat().map((code, codeIndex) => (
             <NotebookModel
-              position={[(index - (scannedCodes.length - 1) / 2) * 1.2, -0.6, 2]}
-              rotation={[0, -0.7, 0]}
-              scale={0.3}
+              key={code.id}
+              position={[codeIndex * 1.5 - 1, -0.6, 2]}
+              rotation={[0, -0.1, 0]}
+              scale={0.4}
               onClick={() => setDetailsOpen(true)}
             />
           ))}
@@ -59,20 +60,23 @@ export default function App() {
         ${isDetailsOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}
       `}
       >
-        {scannedCodes.map((code, index) => (
-          <pre key={index} className="whitespace-break-spaces p-2">
-            {Object.entries(code).map(([key, value]) => {
-              let remUnderscores = key.replaceAll("_", " ");
-              let newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
-              return (
-                <div>
-                  <span className="font-bold text-brand-blue">{`${newLabel}: `}</span>
-                  <span>{`${value}\n`}</span>
-                </div>
-              );
-            })}
-          </pre>
-        ))}
+        {scannedCodesArray.map((object, objectIndex) =>
+          object.map((code, codeIndex) => (
+            <pre key={`${objectIndex} - ${codeIndex}`} className="whitespace-break-spaces p-2">
+              {Object.entries(code).map(([key, value]) => {
+                const remUnderscores = key.replaceAll("_", " ");
+                const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
+
+                return (
+                  <div key={key}>
+                    <span className="font-bold text-brand-blue">{newLabel}:</span>{" "}
+                    <span>{String(value)}</span>
+                  </div>
+                );
+              })}
+            </pre>
+          )),
+        )}
       </div>
       {/** tbd: animation, dynamic frameheight, details height, close details */}
     </div>
