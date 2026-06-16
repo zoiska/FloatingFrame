@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Monitor, ScanLine, HelpCircle } from "lucide-react";
 
 export default function FloatingStart() {
   const navigate = useNavigate();
@@ -22,25 +23,27 @@ export default function FloatingStart() {
       <div className="flex flex-col gap-10">
         <button
           onClick={() => navigate("/FloatingFrame")}
-          className="px-6 py-3 border-2 border-brand-blue text-brand-blue text-xl rounded hover:opacity-80 transition"
+          className="flex items-center gap-3 px-6 py-3 border-2 border-brand-yellow text-brand-yellow text-xl rounded hover:opacity-80 transition"
         >
+          <Monitor size={22} />
           Visualisierung öffnen
         </button>
         <button
           onClick={() => navigate("/Scanner")}
-          className="px-6 py-3 border-2 border-brand-green text-brand-green text-xl rounded hover:opacity-80 transition"
+          className="flex items-center gap-3 px-6 py-3 border-2 border-brand-grey text-brand-grey text-xl rounded hover:opacity-80 transition"
         >
+          <ScanLine size={22} />
           Scanner starten
         </button>
       </div>
 
       <p className="mt-40 opacity-60 text-sm">© 2026 FloatingFrame</p>
 
-      {/* FAQ Button unten links */}
       <button
         onClick={() => setFaqOpen(true)}
-        className="absolute bottom-4 left-4 px-4 py-2 border border-white/20 text-white/70 text-sm rounded hover:opacity-80 transition"
+        className="absolute bottom-4 left-4 flex items-center gap-2 px-4 py-2 border border-white/20 text-white/70 text-sm rounded hover:opacity-80 transition"
       >
+        <HelpCircle size={16} />
         FAQ
       </button>
 
