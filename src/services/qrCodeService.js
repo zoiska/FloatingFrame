@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export async function qrCodeService(setScannedCodesArray, code) {
   try {
-    const res = await fetch(`${API_URL}/api/qr/${code}`);
+    const res = await fetch(`${API_URL}/api/assets/${code}`);
     if (!res.ok) {
       //TODO: user über error berichten undso
       console.log(res.status);
