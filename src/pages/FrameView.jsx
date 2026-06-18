@@ -53,19 +53,21 @@ export default function App() {
         }`}
       >
 
-        {/* Burger Menu Button + Badge */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="absolute top-15 -translate-y-1/2 right-3 z-50 text-white/60 text-2xl px-2 hover:text-white transition"
-        >
-          ≡
-          {activeFilter && !menuOpen && (
-            <span
-              className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full border border-[#0f172a]"
-              style={{ background: activeFilterObj?.color ?? "#93c5fd" }}
-            />
-          )}
-        </button>
+{/* Burger Menu Button + aktives Filter-Icon */}
+<button
+  onClick={() => setMenuOpen(!menuOpen)}
+  className="absolute top-15 -translate-y-1/2 right-3 z-50 text-white/60 text-2xl px-2 hover:text-white transition"
+>
+  ≡
+  {activeFilter && !menuOpen && activeFilterObj && (
+    <span
+      className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#0f172a]"
+      style={{ background: activeFilterObj.color }}
+    >
+      <activeFilterObj.icon size={11} color="#0f172a" strokeWidth={2.5} />
+    </span>
+  )}
+</button>
 
         {/* Filter Sidebar rechts */}
         <div
