@@ -40,7 +40,7 @@ export default function App() {
           <directionalLight position={[2, 2, 2]} intensity={1.5} />
           <ambientLight intensity={1} />
           <BoxFrame rotation="0.7854" color="white" />
-          {scannedCodesArray.flat().map((code, codeIndex) => (
+          {scannedCodesArray.map((code, codeIndex) => (
             <NotebookModel
               key={code.id}
               position={[codeIndex * 1.5 - 1, -0.6, 2]}
@@ -60,25 +60,22 @@ export default function App() {
         ${isDetailsOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}
       `}
       >
-        {scannedCodesArray.map((object, objectIndex) =>
-          object.map((code, codeIndex) => (
-            <pre key={`${objectIndex} - ${codeIndex}`} className="whitespace-break-spaces p-2">
-              {Object.entries(code).map(([key, value]) => {
-                const remUnderscores = key.replaceAll("_", " ");
-                const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
+        {scannedCodesArray.map((code, codeIndex) => (
+          <pre key={codeIndex} className="whitespace-break-spaces p-2">
+            {Object.entries(code).map(([key, value]) => {
+              const remUnderscores = key.replaceAll("_", " ");
+              const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
 
-                return (
-                  <div key={key}>
-                    <span className="font-bold text-brand-blue">{newLabel}:</span>{" "}
-                    <span>{String(value)}</span>
-                  </div>
-                );
-              })}
-            </pre>
-          )),
-        )}
+              return (
+                <div key={key}>
+                  <span className="font-bold text-brand-blue">{newLabel}:</span>{" "}
+                  <span>{String(value)}</span>
+                </div>
+              );
+            })}
+          </pre>
+        ))}
       </div>
-      {/** tbd: animation, dynamic frameheight, details height, close details */}
     </div>
   );
 }

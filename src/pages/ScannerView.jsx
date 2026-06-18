@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import Header from "../components/ScannerHeader";
 import { ScannedCodesArrayContext } from "../contexts/ScannedCodesArrayContext";
+import { qrCodeService } from "../services/qrCodeService.js";
 
 export default function ScannerView() {
   const { setScannedCodesArray } = useContext(ScannedCodesArrayContext);
@@ -74,7 +75,7 @@ export default function ScannerView() {
     detectedCodes.forEach((code) => {
       const parsed = JSON.parse(code.rawValue);
 
-      setScannedCodesArray((prev) => [...prev, parsed]);
+      qrCodeService(setScannedCodesArray, parsed);
 
       navigate("/FloatingFrame");
     });
