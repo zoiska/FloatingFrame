@@ -21,16 +21,16 @@ export default function FloatingStart() {
 
       <div className="flex flex-col gap-10">
         <button
-          onClick={() => navigate("/FloatingFrame")}
+          onClick={() => navigate("/Scanner")}
           className="px-6 py-3 border-2 border-brand-blue text-brand-blue text-xl rounded hover:opacity-80 transition"
         >
-          Visualisierung öffnen
+          Scanner starten
         </button>
         <button
-          onClick={() => navigate("/Scanner")}
+          onClick={() => navigate("/Assetverwaltung")}
           className="px-6 py-3 border-2 border-brand-green text-brand-green text-xl rounded hover:opacity-80 transition"
         >
-          Scanner starten
+          Assetverwaltung
         </button>
       </div>
 

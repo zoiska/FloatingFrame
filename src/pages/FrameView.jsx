@@ -2,13 +2,22 @@ import { Canvas } from "@react-three/fiber";
 import { useContext, useEffect, useState } from "react";
 import BoxFrame from "../components/BoxFrame";
 import NotebookModel from "../components/NotebookModel";
-import { ScannedCodesContext } from "../contexts/ScannedCodesContext";
+import { ScannedCodesArrayContext } from "../contexts/ScannedCodesArrayContext";
 import { Patchpanel } from "../react_assets/Patchpanel";
+import CameraSetup from "../components/CameraSetup.jsx";
 
 export default function App() {
   let [orientation, setOrientation] = useState("portrait");
   const [isDetailsOpen, setDetailsOpen] = useState(false);
-  const { scannedCodes } = useContext(ScannedCodesContext);
+  const [selectedAsset, setSelectedAsset] = useState(null);
+  const { scannedCodesArray } = useContext(ScannedCodesArrayContext);
+
+  const assetPositions = [
+    [0, -0.6, 0.5],
+    [1, -0.6, 1.5],
+    [-1, -0.6, 1.5],
+    [0, -0.6, 2.5],
+  ];
 
   useEffect(() => {
     function handleRotation() {
@@ -36,20 +45,29 @@ export default function App() {
         <Patchpanel />
       </div>
       <div className="frameContainer h-4/10">
-        <Canvas className="canvas">
+        <Canvas className="canvas" camera={{ fov: 40 }}>
+          <CameraSetup />
           <directionalLight position={[2, 2, 2]} intensity={1.5} />
           <ambientLight intensity={1} />
           <BoxFrame rotation="0.7854" color="white" />
-          <NotebookModel
-            position={[0, -0.6, 2]}
-            rotation={[0, -0.7, 0]}
-            scale={0.3}
-            onClick={() => setDetailsOpen(true)}
-          />
+          {scannedCodesArray
+            .filter((code) => code.type === "computer")
+            .map((code, codeIndex) => (
+              <NotebookModel
+                key={code.id}
+                position={assetPositions[codeIndex]}
+                rotation={[0, -0.785398, 0]}
+                scale={0.4}
+                onClick={() => {
+                  setSelectedAsset(code);
+                  setDetailsOpen(true);
+                }}
+              />
+            ))}
         </Canvas>
       </div>
       <div
-        className={` detailsContainer h-5/10 w-full wrap-anywhere overflow-auto
+        className={`detailsContainer h-5/10 w-full wrap-anywhere overflow-auto
         bottom-0 left-0 right-0
 
         transform transition-all duration-500 ease-out
@@ -57,22 +75,22 @@ export default function App() {
         ${isDetailsOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}
       `}
       >
-        {scannedCodes.map((code, index) => (
-          <pre key={index} className="whitespace-break-spaces p-2">
-            {Object.entries(code).map(([key, value]) => {
-              let remUnderscores = key.replaceAll("_", " ");
-              let newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
+        {selectedAsset && (
+          <pre className="whitespace-break-spaces p-2">
+            {Object.entries(selectedAsset).map(([key, value]) => {
+              const remUnderscores = key.replaceAll("_", " ");
+              const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
+
               return (
-                <div>
-                  <span className="font-bold text-brand-blue">{`${newLabel}: `}</span>
-                  <span>{`${value}\n`}</span>
+                <div key={key}>
+                  <span className="font-bold text-brand-blue">{newLabel}:</span>{" "}
+                  <span>{String(value)}</span>
                 </div>
               );
             })}
           </pre>
-        ))}
+        )}
       </div>
-      {/** tbd: animation, dynamic frameheight, details height, close details */}
     </div>
   );
 }

@@ -34,10 +34,6 @@ export const Patchpanel = (props) => {
             {i + 1}
           </text>
         ))}
-
-        <text x="368" y="-36" fill="#fff" fontSize="6" fontFamily="Verdana">
-          5e
-        </text>
       </g>
     </svg>
   );
