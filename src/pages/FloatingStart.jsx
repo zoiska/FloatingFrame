@@ -27,7 +27,7 @@ export default function FloatingStart() {
           Scanner starten
         </button>
         <button
-          onClick={() => navigate("/Assetsverwaltung")}
+          onClick={() => navigate("/Assetverwaltung")}
           className="px-6 py-3 border-2 border-brand-green text-brand-green text-xl rounded hover:opacity-80 transition"
         >
           Assetverwaltung
