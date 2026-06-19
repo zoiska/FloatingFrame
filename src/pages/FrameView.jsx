@@ -4,11 +4,20 @@ import BoxFrame from "../components/BoxFrame";
 import NotebookModel from "../components/NotebookModel";
 import { ScannedCodesArrayContext } from "../contexts/ScannedCodesArrayContext";
 import { Patchpanel } from "../react_assets/Patchpanel";
+import CameraSetup from "../components/CameraSetup.jsx";
 
 export default function App() {
   let [orientation, setOrientation] = useState("portrait");
   const [isDetailsOpen, setDetailsOpen] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState(null);
   const { scannedCodesArray } = useContext(ScannedCodesArrayContext);
+
+  const assetPositions = [
+    [0, -0.6, 0.5],
+    [1, -0.6, 1.5],
+    [-1, -0.6, 1.5],
+    [0, -0.6, 2.5],
+  ];
 
   useEffect(() => {
     function handleRotation() {
@@ -36,19 +45,25 @@ export default function App() {
         <Patchpanel />
       </div>
       <div className="frameContainer h-4/10">
-        <Canvas className="canvas">
+        <Canvas className="canvas" camera={{ fov: 40 }}>
+          <CameraSetup />
           <directionalLight position={[2, 2, 2]} intensity={1.5} />
           <ambientLight intensity={1} />
           <BoxFrame rotation="0.7854" color="white" />
-          {scannedCodesArray.map((code, codeIndex) => (
-            <NotebookModel
-              key={code.id}
-              position={[codeIndex * 1.5 - 1, -0.6, 2]}
-              rotation={[0, -0.1, 0]}
-              scale={0.4}
-              onClick={() => setDetailsOpen(true)}
-            />
-          ))}
+          {scannedCodesArray
+            .filter((code) => code.type === "computer")
+            .map((code, codeIndex) => (
+              <NotebookModel
+                key={code.id}
+                position={assetPositions[codeIndex]}
+                rotation={[0, -0.785398, 0]}
+                scale={0.4}
+                onClick={() => {
+                  setSelectedAsset(code);
+                  setDetailsOpen(true);
+                }}
+              />
+            ))}
         </Canvas>
       </div>
       <div
@@ -60,9 +75,9 @@ export default function App() {
         ${isDetailsOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}
       `}
       >
-        {scannedCodesArray.map((code, codeIndex) => (
-          <pre key={codeIndex} className="whitespace-break-spaces p-2">
-            {Object.entries(code).map(([key, value]) => {
+        {selectedAsset && (
+          <pre className="whitespace-break-spaces p-2">
+            {Object.entries(selectedAsset).map(([key, value]) => {
               const remUnderscores = key.replaceAll("_", " ");
               const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
 
@@ -74,7 +89,7 @@ export default function App() {
               );
             })}
           </pre>
-        ))}
+        )}
       </div>
     </div>
   );
