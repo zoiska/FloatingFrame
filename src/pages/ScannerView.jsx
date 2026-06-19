@@ -77,7 +77,7 @@ export default function ScannerView() {
 
       qrCodeService(setScannedCodesArray, parsed);
 
-      navigate("/FloatingFrame");
+      navigate("/ScannedList");
     });
   };
 
