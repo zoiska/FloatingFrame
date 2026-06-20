@@ -14,6 +14,6 @@ export async function qrCodeService(setScannedCodesArray, code) {
       setScannedCodesArray(data);
     }
   } catch (err) {
-    console.log("An error occured: ", err);
+    console.log("An error occured trying to fetch from the server: ", err);
   }
 }
