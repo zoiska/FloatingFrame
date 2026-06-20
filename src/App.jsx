@@ -23,12 +23,8 @@ export default function App() {
 
   return (
     <>
-      <ScannedCodesArrayContext
-        value={{ scannedCodesArray, setScannedCodesArray }}
-      >
-        <AssetResponseContext
-          value={{ assetResponseArray, setAssetResponseArray }}
-        >
+      <ScannedCodesArrayContext value={{ scannedCodesArray, setScannedCodesArray }}>
+        <AssetResponseContext value={{ assetResponseArray, setAssetResponseArray }}>
           <TagResponseContext value={{ tagResponseArray, setTagResponseArray }}>
             <Routes>
               <Route path="/" element={<Navigate to="/start" replace />} />
@@ -36,7 +32,7 @@ export default function App() {
               <Route path="/Scanner" element={<ScannerView />} />
               <Route path="/ScannedList" element={<ScannedList />} />
               <Route path="/Assetverwaltung" element={<Assetverwaltung />} />
-              <Route path="/FloatingFrame" element={<FrameView />} />
+              <Route path="/FloatingFrame/:objectIndex" element={<FrameView />} />
             </Routes>
           </TagResponseContext>
         </AssetResponseContext>
