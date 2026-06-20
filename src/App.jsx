@@ -1,20 +1,22 @@
 import eruda from "eruda";
 import { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router";
-import { AssetResponseContext } from "./contexts/AssetResponseContext";
+
 import { ScannedCodesArrayContext } from "./contexts/ScannedCodesArrayContext";
+import { AssetResponseContext } from "./contexts/AssetResponseContext";
 import { TagResponseContext } from "./contexts/TagResponseContext";
-import Assetverwaltung from "./pages/Assetverwaltung";
+import { ContrastProvider } from "./contexts/ContrastContext";
+
 import FloatingStart from "./pages/FloatingStart";
-import FrameView from "./pages/FrameView";
-import ScannedList from "./pages/ScannedList";
 import ScannerView from "./pages/ScannerView";
+import ScannedList from "./pages/ScannedList";
+import Assetverwaltung from "./pages/Assetverwaltung";
+import FrameView from "./pages/FrameView";
 
 export default function App() {
+
   useEffect(() => {
-    if (!window.eruda) {
-      eruda.init();
-    }
+    eruda.init();
   }, []);
 
   const [scannedCodesArray, setScannedCodesArray] = useState([]);
@@ -22,14 +24,16 @@ export default function App() {
   const [tagResponseArray, setTagResponseArray] = useState([]);
 
   return (
-    <>
-      <ScannedCodesArrayContext
+    <ContrastProvider>
+      <ScannedCodesArrayContext.Provider
         value={{ scannedCodesArray, setScannedCodesArray }}
       >
-        <AssetResponseContext
+        <AssetResponseContext.Provider
           value={{ assetResponseArray, setAssetResponseArray }}
         >
-          <TagResponseContext value={{ tagResponseArray, setTagResponseArray }}>
+          <TagResponseContext.Provider
+            value={{ tagResponseArray, setTagResponseArray }}
+          >
             <Routes>
               <Route path="/" element={<Navigate to="/start" replace />} />
               <Route path="/start" element={<FloatingStart />} />
@@ -38,9 +42,9 @@ export default function App() {
               <Route path="/Assetverwaltung" element={<Assetverwaltung />} />
               <Route path="/FloatingFrame" element={<FrameView />} />
             </Routes>
-          </TagResponseContext>
-        </AssetResponseContext>
-      </ScannedCodesArrayContext>
-    </>
+          </TagResponseContext.Provider>
+        </AssetResponseContext.Provider>
+      </ScannedCodesArrayContext.Provider>
+    </ContrastProvider>
   );
 }
