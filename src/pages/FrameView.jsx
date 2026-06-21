@@ -4,8 +4,8 @@ import { Canvas } from "@react-three/fiber";
 import { ScannedCodesArrayContext } from "../contexts/ScannedCodesArrayContext.jsx";
 import BoxFrame from "../components/BoxFrame.jsx";
 import CameraSetup from "../components/CameraSetup.jsx";
-import NotebookModel from "../components/NotebookModel.jsx";
-import { Patchpanel } from "../react_assets/Patchpanel.jsx";
+import { modelLookupTable } from "../data/modelLookupTable.jsx";
+import { Patchpanel } from "../assets/Patchpanel.jsx";
 
 export default function App() {
   const [orientation, setOrientation] = useState("portrait");
@@ -14,6 +14,8 @@ export default function App() {
   const { scannedCodesArray } = useContext(ScannedCodesArrayContext);
 
   const selectedAsset = scannedCodesArray?.[Number(objectIndex)];
+
+  const ModelComponent = selectedAsset && modelLookupTable[selectedAsset.type];
 
   useEffect(() => {
     function handleRotation() {
@@ -46,7 +48,7 @@ export default function App() {
           <directionalLight position={[2, 2, 2]} intensity={1.5} />
           <ambientLight intensity={1} />
           <BoxFrame rotation="0.7854" color="white" />
-          <NotebookModel position={[1, 1, 1]} rotation={[0, -0.785398, 0]} scale={0.4} />
+          {ModelComponent && <ModelComponent />}
         </Canvas>
       </div>
       <div
