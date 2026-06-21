@@ -1,23 +1,21 @@
-import { Canvas } from "@react-three/fiber";
 import { useContext, useEffect, useState } from "react";
-import BoxFrame from "../components/BoxFrame";
-import NotebookModel from "../components/NotebookModel";
-import { ScannedCodesArrayContext } from "../contexts/ScannedCodesArrayContext";
-import { Patchpanel } from "../react_assets/Patchpanel";
+import { useParams } from "react-router-dom";
+import { Canvas } from "@react-three/fiber";
+import { ScannedCodesArrayContext } from "../contexts/ScannedCodesArrayContext.jsx";
+import BoxFrame from "../components/BoxFrame.jsx";
 import CameraSetup from "../components/CameraSetup.jsx";
+import { modelLookupTable } from "../data/modelLookupTable.jsx";
+import { Patchpanel } from "../assets/Patchpanel.jsx";
 
 export default function App() {
-  let [orientation, setOrientation] = useState("portrait");
-  const [isDetailsOpen, setDetailsOpen] = useState(false);
-  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [orientation, setOrientation] = useState("portrait");
+  const [isDetailsOpen] = useState(true);
+  const { objectIndex } = useParams();
   const { scannedCodesArray } = useContext(ScannedCodesArrayContext);
 
-  const assetPositions = [
-    [0, -0.6, 0.5],
-    [1, -0.6, 1.5],
-    [-1, -0.6, 1.5],
-    [0, -0.6, 2.5],
-  ];
+  const selectedAsset = scannedCodesArray?.[Number(objectIndex)];
+
+  const ModelComponent = selectedAsset && modelLookupTable[selectedAsset.type];
 
   useEffect(() => {
     function handleRotation() {
@@ -50,20 +48,7 @@ export default function App() {
           <directionalLight position={[2, 2, 2]} intensity={1.5} />
           <ambientLight intensity={1} />
           <BoxFrame rotation="0.7854" color="white" />
-          {scannedCodesArray
-            .filter((code) => code.type === "computer")
-            .map((code, codeIndex) => (
-              <NotebookModel
-                key={code.id}
-                position={assetPositions[codeIndex]}
-                rotation={[0, -0.785398, 0]}
-                scale={0.4}
-                onClick={() => {
-                  setSelectedAsset(code);
-                  setDetailsOpen(true);
-                }}
-              />
-            ))}
+          {ModelComponent && <ModelComponent />}
         </Canvas>
       </div>
       <div
