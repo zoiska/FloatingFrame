@@ -6,16 +6,12 @@ import fs from "fs";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    tailwindcss(),
-    react(),
-    babel({ presets: [reactCompilerPreset()] }),
-  ],
+  plugins: [tailwindcss(), react(), babel({ presets: [reactCompilerPreset()] })],
   server: {
     host: true,
     https: {
-      key: fs.readFileSync("../192.168.1.110-key.pem"),
-      cert: fs.readFileSync("../192.168.1.110.pem"),
+      key: fs.readFileSync("./192.168.1.110-key.pem"),
+      cert: fs.readFileSync("./192.168.1.110.pem"),
     },
   },
 });
