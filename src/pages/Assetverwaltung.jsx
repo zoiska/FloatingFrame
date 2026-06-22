@@ -7,6 +7,7 @@ import { AssetResponseContext } from "../contexts/AssetResponseContext";
 import { TagResponseContext } from "../contexts/TagResponseContext";
 import { assetService } from "../services/assetService";
 import { tagService } from "../services/tagService";
+import { useNavigate } from "react-router-dom";
 
 export default function Assetverwaltung() {
   const [searchInput, setSearchInput] = useState(null);
@@ -15,6 +16,7 @@ export default function Assetverwaltung() {
     useContext(TagResponseContext);
   const { assetResponseArray, setAssetResponseArray } =
     useContext(AssetResponseContext);
+  const navigate = useNavigate();
 
   // --- INITIAL LOAD ---
   useEffect(() => {
@@ -36,6 +38,11 @@ export default function Assetverwaltung() {
 
     return matchesSearch && matchesTag;
   });
+
+  // Navigate to Assetmanagement
+  const navigateToAsset = (asset) => {
+    navigate(`/EditView/${asset.type.toLowerCase()}/${asset.id}`);
+  };
 
   // Called by the searchbar, if the user taps something
   // Saves the current input in "searchInput"
@@ -70,7 +77,11 @@ export default function Assetverwaltung() {
       {/* GRID */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
         {filteredAssets?.map((asset, index) => (
-          <AssetCard key={index} asset={asset} />
+          <AssetCard
+            key={index}
+            asset={asset}
+            onClick={() => navigateToAsset(asset, index)}
+          />
         ))}
       </div>
     </div>
