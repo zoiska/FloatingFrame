@@ -10,8 +10,8 @@ export default defineConfig({
   server: {
     host: true,
     https: {
-      key: fs.readFileSync("./192.168.1.110-key.pem"),
-      cert: fs.readFileSync("./192.168.1.110.pem"),
+      key: fs.readFileSync("./kermit-key.pem"),
+      cert: fs.readFileSync("./pepe.pem"),
     },
   },
 });
