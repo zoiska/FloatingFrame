@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ScannedCodesArrayContext } from "../contexts/ScannedCodesArrayContext.jsx";
 import Header from "../components/ScannedListHeader.jsx";
+import { Laptop, Monitor, Network } from "lucide-react";
 
 export default function ScannedList() {
   const { scannedCodesArray } = useContext(ScannedCodesArrayContext);
@@ -32,19 +33,38 @@ export default function ScannedList() {
 
       <div className="pt-12 flex flex-col gap-2 items-center w-full h-full">
         {scannedCodesArray.map((object, objectIndex) => {
-          const type = object.type;
+          //const type = object.type;
 
-          const remUnderscores = type.replaceAll("_", " ");
-          const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
+          //const remUnderscores = type.replaceAll("_", " ");
+          //const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
 
           return (
             <div
               key={objectIndex}
-              className="flex gap-2 border border-b-blue-300 w-1/2 rounded"
+              className="flex gap-2 border border-blue-300 w-4/5 h-10 rounded  items-center p-3"
               onClick={() => navigate(`/FloatingFrame/${objectIndex}`)}
             >
-              <span>{newLabel}:</span>
-              <span>{object.hostname ?? object.screen_diagonal + " Zoll"}</span>
+              <span>
+                {object.type === "computer" ? (
+                  <Laptop />
+                ) : object.type === "monitor" ? (
+                  <Monitor />
+                ) : object.type === "switch" ? (
+                  <Network />
+                ) : (
+                  "An error occurred"
+                )}
+              </span>
+              <span>
+                {(object.hostname ?? object.screen_diagonal + " Zoll") +
+                  (object.ram_size
+                    ? ", " + object.ram_size + " GB"
+                    : object.refresh_rate
+                      ? ", " + object.refresh_rate + " Hz"
+                      : "") +
+                  (object.manufacturer ? ", " + object.manufacturer : "") +
+                  (object.type === "switch" ? ", Port: " + object.port : "")}
+              </span>
             </div>
           );
         })}
