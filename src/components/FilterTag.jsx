@@ -1,7 +1,15 @@
-export default function FilterTag({ label }) {
+export default function FilterTag({ label, onClick, active }) {
   return (
-    <span className="inline-block px-3 py-1 rounded-full border bg-gray-100 border-slate-300 text-black font-bold text-sm cursor-pointer select-none">
+    <button
+      onClick={onClick}
+      className={`inline-block px-3 py-1 rounded-sm border text-sm cursor-pointer select-none
+        ${
+          active
+            ? "bg-blue-500 text-white border-blue-500"
+            : "bg-gray-100 text-black border-slate-300"
+        }`}
+    >
       {label}
-    </span>
+    </button>
   );
 }
