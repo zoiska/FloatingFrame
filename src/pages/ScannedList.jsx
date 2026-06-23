@@ -39,33 +39,35 @@ export default function ScannedList() {
           //const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
 
           return (
-            <div
-              key={objectIndex}
-              className="flex gap-2 border border-blue-300 w-4/5 h-10 rounded  items-center p-3"
-              onClick={() => navigate(`/FloatingFrame/${objectIndex}`)}
-            >
-              <span>
-                {object.type === "computer" ? (
-                  <Laptop />
-                ) : object.type === "monitor" ? (
-                  <Monitor />
-                ) : object.type === "switch" ? (
-                  <Network />
-                ) : (
-                  "An error occurred"
-                )}
-              </span>
-              <span>
-                {(object.hostname ?? object.screen_diagonal + " Zoll") +
-                  (object.ram_size
-                    ? ", " + object.ram_size + " GB"
-                    : object.refresh_rate
-                      ? ", " + object.refresh_rate + " Hz"
-                      : "") +
-                  (object.manufacturer ? ", " + object.manufacturer : "") +
-                  (object.type === "switch" ? ", Port: " + object.port : "")}
-              </span>
-            </div>
+<div
+  key={objectIndex}
+  className="flex gap-3 bg-brand-grey border border-gray-300 w-4/5 min-h-12 rounded-lg 
+             items-center p-3 shadow-sm hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
+  onClick={() => navigate(`/FloatingFrame/${objectIndex}`)}
+>
+  <span className="text-black">
+    {object.type === "computer" ? (
+      <Laptop size={26} strokeWidth={2.5} />
+    ) : object.type === "monitor" ? (
+      <Monitor size={26} strokeWidth={2.5} />
+    ) : object.type === "switch" ? (
+      <Network size={26} strokeWidth={2.5} />
+    ) : (
+      "?"
+    )}
+  </span>
+
+  <span className="text-black font-medium">
+    {(object.hostname ?? object.screen_diagonal + " Zoll") +
+      (object.ram_size
+        ? ", " + object.ram_size + " GB"
+        : object.refresh_rate
+        ? ", " + object.refresh_rate + " Hz"
+        : "") +
+      (object.manufacturer ? ", " + object.manufacturer : "") +
+      (object.type === "switch" ? ", Port: " + object.port : "")}
+  </span>
+</div>
           );
         })}
       </div>

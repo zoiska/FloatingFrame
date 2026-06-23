@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Boxes, ScanLine, HelpCircle } from "lucide-react";
 
 export default function FloatingStart() {
   const navigate = useNavigate();
@@ -21,34 +22,42 @@ export default function FloatingStart() {
 
       <div className="flex flex-col gap-10">
         <button
-          onClick={() => navigate("/Scanner")}
-          className="px-6 py-3 border-2 border-brand-blue text-brand-blue text-xl rounded hover:opacity-80 transition"
+        onClick={() => navigate("/Scanner")}
+        className="flex items-center gap-3 px-4 py-2 bg-brand-grey text-brand-black rounded-lg shadow cursor-pointer hover:scale-105 transition-transform duration-200"
         >
-          Scanner starten
+        <ScanLine size={28} strokeWidth={2.5} />
+        Scanner starten
         </button>
+
         <button
           onClick={() => navigate("/Assetverwaltung")}
-          className="px-6 py-3 border-2 border-brand-green text-brand-green text-xl rounded hover:opacity-80 transition"
+          className="flex items-center gap-3 px-6 py-3 bg-brand-yellow text-brand-black text-xl rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-200"
         >
-          Assetverwaltung
+          <Boxes size={28} strokeWidth={2.5} />
+          Assetverwaltung öffnen
         </button>
       </div>
-
-      <p className="mt-40 opacity-60 text-sm">© 2026 FloatingFrame</p>
-
-      {/* FAQ Button unten links */}
-      <button
+        <button
         onClick={() => setFaqOpen(true)}
-        className="absolute bottom-4 left-4 px-4 py-2 border border-white/20 text-white/70 text-sm rounded hover:opacity-80 transition"
+        className="absolute bottom-4 left-4 flex items-center gap-3 px-4 py-2 bg-[#1e293b] text-white text-base rounded-lg border border-gray-500 hover:opacity-90 cursor-pointer hover:scale-105 transition-transform duration-200"
       >
+        <HelpCircle size={24} strokeWidth={2.5} />
         FAQ
       </button>
+      <p className="mt-40 opacity-60 text-sm">© 2026 FloatingFrame</p>
 
       {faqOpen && (
         <div className="absolute inset-0 bg-black/70 flex items-center justify-center z-50">
           <div className="bg-[#1e293b] border border-white/10 rounded-lg p-6 max-w-md w-full mx-4">
             <h2 className="text-xl font-semibold mb-4">FAQ</h2>
             <p className="text-white/70 text-sm leading-relaxed">
+
+            <img
+              src="/toothless-dancing.gif"
+              alt="DancingDragon"
+              className="w-48 h-auto mx-auto mb-4 rounded-lg shadow-lg"
+            />
+
               1. Was ist FloatingFrame?
               <br />
               FloatingFrame ist ein Netzwerk Visualisierungs- und Scanner-Tool.
@@ -63,6 +72,7 @@ export default function FloatingStart() {
               <br />
               FloatingFrame läuft auf allen modernen Geräten mit einem aktuellen Browser.
             </p>
+
             <button
               onClick={() => setFaqOpen(false)}
               className="mt-6 px-4 py-2 border border-white/20 text-white/70 text-sm rounded hover:opacity-80 transition"
