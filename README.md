@@ -1,5 +1,8 @@
 # FloatingFrame
 
+## VMMASTER
+This version is meant to contact BE over nginx proxy
+
 Networktopology Visualizer
 
 Backend at [zoiska/FloatingFrame-Backend](https://github.com/zoiska/FloatingFrame-Backend)
