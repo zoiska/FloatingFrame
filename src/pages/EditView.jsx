@@ -82,7 +82,7 @@ export default function EditView() {
 
   return (
     <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4 border  bg-brand-white border-gray-300 p-3 rounded text-black text-center">
+      <h1 className="text-2xl font-bold mb-4 text-white text-center">
         {formData.type} #{formData.id} bearbeiten
       </h1>
 
@@ -92,14 +92,14 @@ export default function EditView() {
           const isDisabled = key === "id" || key === "type";
 
           return (
-            <div key={key} className="flex flex-col bg-brand-grey border border-gray-300 p-3 rounded"
+            <div key={key} className="flex flex-col bg-brand-grey p-1 rounded"
             >
               <label className="font-bold capitalize text-black">
                 {key.replaceAll("_", " ")}
               </label>
 
               <input
-                className="border border-gray-300 p-2 rounded bg-white text-black"
+                className="border-2 border-brand-orange p-1 rounded bg-white text-black"
                 value={value ?? ""}
                 disabled={isDisabled}
                 onChange={(e) => handleChange(key, e.target.value)}
@@ -113,7 +113,7 @@ export default function EditView() {
       <div className="flex gap-3 mt-5">
         <button
           onClick={handleSave}
-          className="flex items-center gap-2 bg-brand-yellow text-black px-4 py-2 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-200"
+          className="flex items-center gap-2 bg-brand-blue text-black px-4 py-2 rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
        >
           <Save className="w-5 h-5" />
           Speichern
@@ -121,7 +121,7 @@ export default function EditView() {
 
         <button
           onClick={handleBack}
-          className="flex items-center gap-2 bg-brand-grey text-black px-4 py-2 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-200"
+          className="flex items-center gap-2 bg-brand-orange text-black px-4 py-2 rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
         >
           <ArrowLeft className="w-5 h-5" />
           Zurück

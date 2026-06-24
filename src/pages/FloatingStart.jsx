@@ -10,11 +10,11 @@ export default function FloatingStart() {
     <div className="h-dvh flex flex-col items-center justify-center relative overflow-hidden w-full">
       <div
         className="absolute w-96 h-96 rounded-full top-10 left-5 pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(255,165,0,0.12) 0%, transparent 70%)" }}
       />
       <div
         className="absolute w-72 h-72 rounded-full bottom-16 right-8 pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(34,197,94,0.10) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)" }}
       />
 
       <h1 className="text-5xl font-bold mb-4 tracking-tight">FloatingFrame</h1>
@@ -23,7 +23,7 @@ export default function FloatingStart() {
       <div className="flex flex-col gap-10">
         <button
         onClick={() => navigate("/Scanner")}
-        className="flex items-center gap-3 px-4 py-2 bg-brand-grey text-brand-black rounded-lg shadow cursor-pointer hover:scale-105 transition-transform duration-200"
+        className="flex items-center gap-3 px-6 py-3 bg-brand-blue text-brand-black text-xl rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
         >
         <ScanLine size={28} strokeWidth={2.5} />
         Scanner starten
@@ -31,7 +31,7 @@ export default function FloatingStart() {
 
         <button
           onClick={() => navigate("/Assetverwaltung")}
-          className="flex items-center gap-3 px-6 py-3 bg-brand-yellow text-brand-black text-xl rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-200"
+          className="flex items-center gap-3 px-6 py-3 bg-brand-orange text-brand-black text-xl rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
         >
           <Boxes size={28} strokeWidth={2.5} />
           Assetverwaltung öffnen
@@ -39,23 +39,23 @@ export default function FloatingStart() {
       </div>
         <button
         onClick={() => setFaqOpen(true)}
-        className="absolute bottom-4 left-4 flex items-center gap-3 px-4 py-2 bg-[#1e293b] text-white text-base rounded-lg border border-gray-500 hover:opacity-90 cursor-pointer hover:scale-105 transition-transform duration-200"
+        className="absolute bottom-4 left-4 flex items-center gap-3 px-4 py-2 bg-brand-black text-white text-base rounded-lg border border-gray-500 hover:opacity-90 cursor-pointer hover:scale-105 transition-transform duration-200"
       >
         <HelpCircle size={24} strokeWidth={2.5} />
         FAQ
       </button>
       <p className="mt-40 opacity-60 text-sm">© 2026 FloatingFrame</p>
-
+      
       {faqOpen && (
         <div className="absolute inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="bg-[#1e293b] border border-white/10 rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-brand-black border border-white rounded-lg p-6 max-w-md w-full mx-4">
             <h2 className="text-xl font-semibold mb-4">FAQ</h2>
-            <p className="text-white/70 text-sm leading-relaxed">
+            <p className="text-white text-sm leading-relaxed">
 
             <img
               src="/toothless-dancing.gif"
               alt="DancingDragon"
-              className="w-48 h-auto mx-auto mb-4 rounded-lg shadow-lg"
+              className="w-48 h-auto mx-auto mb-4 rounded-lg"
             />
 
               1. Was ist FloatingFrame?

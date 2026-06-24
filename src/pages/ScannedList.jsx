@@ -41,8 +41,8 @@ export default function ScannedList() {
           return (
 <div
   key={objectIndex}
-  className="flex gap-3 bg-brand-grey border border-gray-300 w-4/5 min-h-12 rounded-lg 
-             items-center p-3 shadow-sm hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
+  className="flex gap-3 bg-brand-grey border-brand-grey w-4/5 min-h-12 rounded-lg 
+             items-center p-3 hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
   onClick={() => navigate(`/FloatingFrame/${objectIndex}`)}
 >
   <span className="text-black">
@@ -57,16 +57,18 @@ export default function ScannedList() {
     )}
   </span>
 
-  <span className="text-black font-medium">
-    {(object.hostname ?? object.screen_diagonal + " Zoll") +
-      (object.ram_size
-        ? ", " + object.ram_size + " GB"
-        : object.refresh_rate
-        ? ", " + object.refresh_rate + " Hz"
-        : "") +
-      (object.manufacturer ? ", " + object.manufacturer : "") +
-      (object.type === "switch" ? ", Port: " + object.port : "")}
-  </span>
+  <div className="bg-white border-2 border-brand-orange rounded-md px-2 py-1">
+    <span className="text-black font-medium">
+      {(object.hostname ?? object.screen_diagonal + " Zoll") +
+        (object.ram_size
+          ? ", " + object.ram_size + " GB"
+          : object.refresh_rate
+          ? ", " + object.refresh_rate + " Hz"
+          : "") +
+        (object.manufacturer ? ", " + object.manufacturer : "") +
+        (object.type === "switch" ? ", Port: " + object.port : "")}
+    </span>
+  </div>
 </div>
           );
         })}
