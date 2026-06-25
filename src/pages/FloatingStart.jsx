@@ -23,7 +23,7 @@ export default function FloatingStart() {
       <div className="flex flex-col gap-10">
         <button
         onClick={() => navigate("/Scanner")}
-        className="flex items-center gap-3 px-6 py-3 bg-brand-blue text-brand-black text-xl rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
+        className="flex items-center gap-3 px-6 py-3 border border-b-brand-blue bg-transparent text-brand-blue text-xl rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
         >
         <ScanLine size={28} strokeWidth={2.5} />
         Scanner starten
@@ -31,7 +31,7 @@ export default function FloatingStart() {
 
         <button
           onClick={() => navigate("/Assetverwaltung")}
-          className="flex items-center gap-3 px-6 py-3 bg-brand-orange text-brand-black text-xl rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
+          className="flex items-center gap-3 px-6 py-3 border border-brand-orange bg-transparent text-brand-orange text-xl rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
         >
           <Boxes size={28} strokeWidth={2.5} />
           Assetverwaltung öffnen
