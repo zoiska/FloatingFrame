@@ -8,6 +8,7 @@ const icons = {
 
 export default function AssetCard({ asset, onClick }) {
   const name = asset?.type ? `${asset.type}-${asset.id}` : "Unbekannt";
+  const hostname = asset?.hostname || "Unbekannt";
   const Icon = icons[asset?.type?.toLowerCase()];
 
   return (
@@ -21,6 +22,7 @@ export default function AssetCard({ asset, onClick }) {
 
       <div className="rounded-md w-full text-center">
         <span className="font-bold text-xl text-brand-orange">{name}</span>
+        <span className="text-sm text-gray-600 text-center">{hostname}</span>
       </div>
     </div>
   );

@@ -4,12 +4,14 @@ import { Navigate, Route, Routes } from "react-router";
 import { AssetResponseContext } from "./contexts/AssetResponseContext";
 import { ScannedCodesArrayContext } from "./contexts/ScannedCodesArrayContext";
 import { TagResponseContext } from "./contexts/TagResponseContext";
+
 import Assetverwaltung from "./pages/Assetverwaltung";
 import FloatingStart from "./pages/FloatingStart";
 import FrameView from "./pages/FrameView";
 import ScannedList from "./pages/ScannedList";
 import ScannerView from "./pages/ScannerView";
 import EditView from "./pages/EditView";
+import CreateView from "./pages/CreateView";
 
 export default function App() {
   useEffect(() => {
@@ -41,6 +43,7 @@ export default function App() {
                 path="/FloatingFrame/:objectIndex"
                 element={<FrameView />}
               />
+              <Route path="/CreateView/:type" element={<CreateView />} />
               <Route path="/EditView/:type/:id" element={<EditView />} />
             </Routes>
           </TagResponseContext>

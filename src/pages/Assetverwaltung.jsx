@@ -1,56 +1,60 @@
-// --- IMPORTS ---
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AssetCard from "../components/AssetCard";
 import FilterTag from "../components/FilterTag";
 import Searchbar from "../components/Searchbar";
+import CreateAssetMenu from "../components/CreateAssetMenu";
 import { AssetResponseContext } from "../contexts/AssetResponseContext";
 import { TagResponseContext } from "../contexts/TagResponseContext";
 import { assetService } from "../services/assetService";
 import { tagService } from "../services/tagService";
-import { useNavigate } from "react-router-dom";
 
 export default function Assetverwaltung() {
   const [searchInput, setSearchInput] = useState(null);
   const [selectedTag, setSelectedTag] = useState(null);
+  
   const { tagResponseArray, setTagResponseArray } =
     useContext(TagResponseContext);
+
   const { assetResponseArray, setAssetResponseArray } =
     useContext(AssetResponseContext);
-  const navigate = useNavigate();
-
-  // --- INITIAL LOAD ---
-  useEffect(() => {
-    assetService(setAssetResponseArray);
-    tagService(setTagResponseArray);
-  }, []);
-
-  // --- SEARCHBAR & TAGS ---
-  // Shows all assets, if the input is empty
-  // compares the input with "asset.type"
-  const filteredAssets = assetResponseArray?.filter((asset) => {
-    // Suchfilter
-    const matchesSearch =
-      !searchInput ||
-      asset.type?.toLowerCase().includes(searchInput.toLowerCase());
-
-    // Tagfilter
-    const matchesTag = !selectedTag || asset.qr_code_id === selectedTag;
-
-    return matchesSearch && matchesTag;
-  });
-
-  // Navigate to Assetmanagement
+  
   const navigateToAsset = (asset) => {
     navigate(`/EditView/${asset.type.toLowerCase()}/${asset.id}`);
   };
 
-  // Called by the searchbar, if the user taps something
-  // Saves the current input in "searchInput"
-  const setSearchbarInput = (value) => {
-    setSearchInput(value);
-  };
+  // INIT
+  useEffect(() => {
+    const load = async () => {
+      await assetService(setAssetResponseArray);
+      await tagService(setTagResponseArray);
+    };
 
-  // --- OUTPUT ---
+    load();
+  }, []);
+
+  // FILTER
+  const filteredAssets = assetResponseArray?.filter((asset) => {
+    const matchesSearch =
+      !searchInput ||
+      asset.type?.toLowerCase().includes(searchInput.toLowerCase());
+
+    const matchesTag =
+      selectedTag === null ||
+      selectedTag === undefined ||
+      asset.qr_code_id === selectedTag ||
+      (selectedTag === "none" && !asset.qr_code_id);
+
+    return matchesSearch && matchesTag;
+  });
+  
+  const sortedAssets = [...(filteredAssets || [])].sort((a, b) => {
+    const nameA = `${a.type}-${a.id}`.toLowerCase();
+    const nameB = `${b.type}-${b.id}`.toLowerCase();
+
+    return nameA.localeCompare(nameB);
+  });
+
   return (
     <div className="relative overflow-visible p-4">
       <div
@@ -61,11 +65,11 @@ export default function Assetverwaltung() {
         }}
       />
       <div className="p-4">
-        {/* searchInput */}
-        <Searchbar value={searchInput} onChange={setSearchbarInput} />
+        <Searchbar value={searchInput} onChange={setSearchInput} />
 
-        {/* FILTERTAGS */}
         <div className="flex flex-wrap gap-2 mt-2 justify-center">
+
+        {tagResponseArray?.map((tag) => (
           <FilterTag
             label="Alle"
             active={selectedTag === null}
@@ -82,17 +86,18 @@ export default function Assetverwaltung() {
           ))}
         </div>
 
-        {/* GRID */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-          {filteredAssets?.map((asset, index) => (
-            <AssetCard
-              key={index}
-              asset={asset}
-              onClick={() => navigateToAsset(asset, index)}
-            />
-          ))}
-        </div>
+        {sortedAssets.map((asset) => (
+          <AssetCard
+            key={${asset.type}-${asset.id}}
+            asset={asset}
+            onClick={() => navigateToAsset(asset, asset.id)}
+          />
+        ))}
       </div>
+
+      <CreateAssetMenu />
     </div>
   );
 }
