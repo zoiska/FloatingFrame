@@ -94,7 +94,6 @@ export default function Assetverwaltung() {
             onClick={() => navigateToAsset(asset, asset.id)}
           />
       </div>
-      </div>
         ))}
       </div>
 
