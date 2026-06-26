@@ -69,7 +69,6 @@ export default function Assetverwaltung() {
 
         <div className="flex flex-wrap gap-2 mt-2 justify-center">
 
-        {tagResponseArray?.map((tag) => (
           <FilterTag
             label="Alle"
             active={selectedTag === null}
