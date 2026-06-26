@@ -90,7 +90,7 @@ export default function Assetverwaltung() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
         {sortedAssets.map((asset) => (
           <AssetCard
-            key={${asset.type}-${asset.id}}
+            key={`${asset.type}-${asset.id}`}
             asset={asset}
             onClick={() => navigateToAsset(asset, asset.id)}
           />
