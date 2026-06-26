@@ -16,7 +16,7 @@ export default function AssetCard({ asset, onClick }) {
       onClick={onClick}
       className="border border-brand-orange rounded p-4 flex flex-col items-center justify-center h-32 
       bg-transparent text-brand-orange cursor-pointer 
-                 hover:scale-105 transition-transform duration-200"
+      hover:scale-105 transition-transform duration-200"
     >
       {Icon && <Icon className="w-15 h-15 mb-2 text-brand-orange" />}
 
