@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Boxes, ScanLine, HelpCircle } from "lucide-react";
 
@@ -6,17 +6,40 @@ export default function FloatingStart() {
   const navigate = useNavigate();
   const [faqOpen, setFaqOpen] = useState(false);
 
+  const [orientation, setOrientation] = useState("portrait");
+
+  // INIT
+  useEffect(() => {
+    const load = async () => {
+      function handleRotation() {
+        setOrientation(screen.orientation.type);
+      }
+      screen.orientation.addEventListener("change", handleRotation);
+      return () => {
+        screen.orientation.removeEventListener("change", handleRotation);
+      };
+    };
+
+    load();
+  }, []);
+
   return (
-    <div className="h-dvh flex flex-col items-center justify-center relative overflow-hidden w-full">
+    <div
+      className={`mainContainer w-full items-center justify-center flex flex-col relative overflow-hidden  ${
+        orientation === "portrait" || orientation === "portrait-primary"
+          ? "h-dvh"
+          : "max-h-min"
+      }`}
+    >
       <div
-        className="absolute w-96 h-96 rounded-full top-10 left-5 pointer-events-none"
+        className="fixed w-screen h-screen rounded-full pointer-events-none"
         style={{
           background:
             "radial-gradient(circle, rgba(255,165,0,0.12) 0%, transparent 70%)",
         }}
       />
       <div
-        className="absolute w-72 h-72 rounded-full bottom-16 right-8 pointer-events-none"
+        className="fixed translate-y-75 w-screen h-screen rounded-full pointer-events-none "
         style={{
           background:
             "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",

@@ -15,19 +15,29 @@ export default function Assetverwaltung() {
 
   const navigate = useNavigate();
 
-  const { tagResponseArray, setTagResponseArray } = useContext(TagResponseContext);
+  const { tagResponseArray, setTagResponseArray } =
+    useContext(TagResponseContext);
 
-  const { assetResponseArray, setAssetResponseArray } = useContext(AssetResponseContext);
+  const { assetResponseArray, setAssetResponseArray } =
+    useContext(AssetResponseContext);
 
   const navigateToAsset = (asset) => {
     navigate(`/EditView/${asset.type.toLowerCase()}/${asset.id}`);
   };
+  const [orientation, setOrientation] = useState("portrait");
 
   // INIT
   useEffect(() => {
     const load = async () => {
       await assetService(setAssetResponseArray);
       await tagService(setTagResponseArray);
+      function handleRotation() {
+        setOrientation(screen.orientation.type);
+      }
+      screen.orientation.addEventListener("change", handleRotation);
+      return () => {
+        screen.orientation.removeEventListener("change", handleRotation);
+      };
     };
 
     load();
@@ -36,7 +46,8 @@ export default function Assetverwaltung() {
   // FILTER
   const filteredAssets = assetResponseArray?.filter((asset) => {
     const matchesSearch =
-      !searchInput || asset.type?.toLowerCase().includes(searchInput.toLowerCase());
+      !searchInput ||
+      asset.type?.toLowerCase().includes(searchInput.toLowerCase());
 
     const matchesTag =
       selectedTag === null ||
@@ -55,11 +66,18 @@ export default function Assetverwaltung() {
   });
 
   return (
-    <div className="relative overflow-visible p-4">
+    <div
+      className={`mainContainer w-full  ${
+        orientation === "portrait" || orientation === "portrait-primary"
+          ? "h-dvh"
+          : "max-h-min"
+      }`}
+    >
       <div
-        className="absolute w-150 h-200 rounded-full top-[60vh] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        className="fixed w-screen h-screen  rounded-full  pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
+          background:
+            "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
         }}
       />
 
@@ -84,7 +102,7 @@ export default function Assetverwaltung() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4 p-4">
         {sortedAssets.map((asset) => (
           <AssetCard
             key={`${asset.type}-${asset.id}`}

@@ -7,7 +7,7 @@ import { Laptop, Monitor, Network } from "lucide-react";
 export default function ScannedList() {
   const { scannedCodesArray } = useContext(ScannedCodesArrayContext);
 
-  let [orientation, setOrientation] = useState("portrait");
+  const [orientation, setOrientation] = useState("portrait");
 
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ export default function ScannedList() {
       <Header />
 
       <div
-        className="absolute w-150 h-200 rounded-full top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        className="fixed w-screen h-screen rounded-full pointer-events-none"
         style={{
           background:
             "radial-gradient(circle, rgba(251,146,60,0.12) 0%, transparent 70%)",
@@ -52,7 +52,7 @@ export default function ScannedList() {
             <div
               key={objectIndex}
               className="flex gap-3 bg-transparent border border-brand-blue w-4/5 min-h-12 rounded-lg 
-                         items-center p-3 hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
+              items-center p-3 hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
               onClick={() => navigate(`/FloatingFrame/${objectIndex}`)}
             >
               <span className="text-brand-blue">

@@ -7,7 +7,7 @@ import { qrCodeService } from "../services/qrCodeService.js";
 
 export default function ScannerView() {
   const { setScannedCodesArray } = useContext(ScannedCodesArrayContext);
-  let [orientation, setOrientation] = useState("portrait");
+  const [orientation, setOrientation] = useState("portrait");
 
   const navigate = useNavigate();
 

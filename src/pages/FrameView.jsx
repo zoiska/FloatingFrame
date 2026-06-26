@@ -64,7 +64,9 @@ export default function App() {
           <pre className="whitespace-break-spaces p-2">
             {Object.entries(selectedAsset).map(([key, value]) => {
               const remUnderscores = key.replaceAll("_", " ");
-              const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
+              const newLabel =
+                remUnderscores.charAt(0).toUpperCase() +
+                remUnderscores.slice(1);
 
               return (
                 <div key={key}>

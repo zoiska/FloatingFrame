@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AssetResponseContext } from "../contexts/AssetResponseContext";
 import { assetService } from "../services/assetService";
+import { ArrowLeft, Save } from "lucide-react";
 
 // Schema
 const schema = {
@@ -32,6 +33,8 @@ export default function CreateView() {
 
   const fields = schema[type] || [];
   const [formData, setFormData] = useState({});
+
+  const [orientation, setOrientation] = useState("portrait");
 
   const handleChange = (key, value) => {
     setFormData((prev) => ({
@@ -65,39 +68,64 @@ export default function CreateView() {
     navigate(-1);
   };
 
+  // INIT
+  useEffect(() => {
+    const load = async () => {
+      function handleRotation() {
+        setOrientation(screen.orientation.type);
+      }
+      screen.orientation.addEventListener("change", handleRotation);
+      return () => {
+        screen.orientation.removeEventListener("change", handleRotation);
+      };
+    };
+
+    load();
+  }, []);
+
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Create {type}</h1>
+    <div
+      className={`mainContainer w-full  ${
+        orientation === "portrait" || orientation === "portrait-primary"
+          ? "h-dvh"
+          : "max-h-min"
+      }`}
+    >
+      <div className="p-6 max-w-xl mx-auto">
+        <h1 className="text-2xl font-bold mb-4">Create {type}</h1>
 
-      <div className="space-y-3">
-        {fields.map((field) => (
-          <div key={field} className="flex flex-col">
-            <label className="font-bold capitalize">
-              {field.replaceAll("_", " ")}
-            </label>
+        <div className="space-y-3">
+          {fields.map((field) => (
+            <div key={field} className="flex flex-col">
+              <label className="font-bold capitalize">
+                {field.replaceAll("_", " ")}
+              </label>
 
-            <input
-              className="border p-2 rounded"
-              onChange={(e) => handleChange(field, e.target.value)}
-            />
-          </div>
-        ))}
-      </div>
+              <input
+                className="border p-2 rounded"
+                onChange={(e) => handleChange(field, e.target.value)}
+              />
+            </div>
+          ))}
+        </div>
 
-      <div className="flex gap-3 mt-6">
-        <button
-          onClick={handleBack}
-          className="px-4 py-2 bg-red-400 text-white rounded hover:bg-red-500 transition"
-        >
-          Zurück
-        </button>
+        <div className="flex gap-3 mt-6">
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-2 bg-transparent text-brand-orange border border-brand-orange px-4 py-2 rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
+          >
+            <ArrowLeft className="w5 h-5" />
+            Zurück
+          </button>
 
-        <button
-          onClick={handleCreate}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-        >
-          Erstellen
-        </button>
+          <button
+            onClick={handleCreate}
+            className="flex items-center gap-2 bg-transparent text-brand-blue border border-brand-blue px-4 py-2 rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
+          >
+            <Save className="w-5 h-5" />
+            Erstellen
+          </button>
+        </div>
       </div>
     </div>
   );
