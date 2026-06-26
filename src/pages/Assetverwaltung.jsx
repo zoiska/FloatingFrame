@@ -12,13 +12,13 @@ import { tagService } from "../services/tagService";
 export default function Assetverwaltung() {
   const [searchInput, setSearchInput] = useState(null);
   const [selectedTag, setSelectedTag] = useState(null);
-  
-  const { tagResponseArray, setTagResponseArray } =
-    useContext(TagResponseContext);
 
-  const { assetResponseArray, setAssetResponseArray } =
-    useContext(AssetResponseContext);
-  
+  const navigate = useNavigate();
+
+  const { tagResponseArray, setTagResponseArray } = useContext(TagResponseContext);
+
+  const { assetResponseArray, setAssetResponseArray } = useContext(AssetResponseContext);
+
   const navigateToAsset = (asset) => {
     navigate(`/EditView/${asset.type.toLowerCase()}/${asset.id}`);
   };
@@ -36,8 +36,7 @@ export default function Assetverwaltung() {
   // FILTER
   const filteredAssets = assetResponseArray?.filter((asset) => {
     const matchesSearch =
-      !searchInput ||
-      asset.type?.toLowerCase().includes(searchInput.toLowerCase());
+      !searchInput || asset.type?.toLowerCase().includes(searchInput.toLowerCase());
 
     const matchesTag =
       selectedTag === null ||
@@ -47,7 +46,7 @@ export default function Assetverwaltung() {
 
     return matchesSearch && matchesTag;
   });
-  
+
   const sortedAssets = [...(filteredAssets || [])].sort((a, b) => {
     const nameA = `${a.type}-${a.id}`.toLowerCase();
     const nameB = `${b.type}-${b.id}`.toLowerCase();
@@ -60,15 +59,14 @@ export default function Assetverwaltung() {
       <div
         className="absolute w-150 h-200 rounded-full top-[60vh] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
         }}
       />
+
       <div className="p-4">
         <Searchbar value={searchInput} onChange={setSearchInput} />
 
         <div className="flex flex-wrap gap-2 mt-2 justify-center">
-
           <FilterTag
             label="Alle"
             active={selectedTag === null}
@@ -84,16 +82,15 @@ export default function Assetverwaltung() {
             />
           ))}
         </div>
+      </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
         {sortedAssets.map((asset) => (
           <AssetCard
             key={`${asset.type}-${asset.id}`}
             asset={asset}
             onClick={() => navigateToAsset(asset, asset.id)}
           />
-      </div>
         ))}
       </div>
 
