@@ -14,15 +14,16 @@ export default function AssetCard({ asset, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="border rounded p-4 flex flex-col items-center justify-center h-32 bg-white text-black cursor-pointer"
+      className="border border-brand-orange rounded p-4 flex flex-col items-center justify-center h-32 
+                 bg-transparent text-brand-orange cursor-pointer 
+                 hover:scale-105 transition-transform duration-200"
     >
-      {Icon && <Icon className="w-10 h-10 mb-2 text-black" />}
+      {Icon && <Icon className="w-15 h-15 mb-2 text-brand-orange" />}
 
-      {/* NAME */}
-      <span className="font-bold text-center text-xl">{name}</span>
-
-      {/* HOSTNAME */}
-      <span className="text-sm text-gray-600 text-center">{hostname}</span>
+      <div className="rounded-md w-full text-center">
+        <span className="font-bold text-xl text-brand-orange">{name}</span>
+        <span className="text-sm text-gray-600 text-center">{hostname}</span>
+      </div>
     </div>
   );
 }
