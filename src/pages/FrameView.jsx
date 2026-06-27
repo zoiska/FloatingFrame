@@ -68,8 +68,8 @@ export default function App() {
 
               return (
                 <div key={key}>
-                  <span className="font-bold text-brand-blue">{newLabel}:</span>{" "}
-                  <span>{String(value)}</span>
+                  <span className="key_span font-bold text-brand-blue text-base">{newLabel}:</span>{" "}
+                  <span className="value_span text-base">{String(value)}</span>
                 </div>
               );
             })}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Boxes, ScanLine, HelpCircle } from "lucide-react";
 
@@ -6,27 +6,40 @@ export default function FloatingStart() {
   const navigate = useNavigate();
   const [faqOpen, setFaqOpen] = useState(false);
 
+  const [orientation, setOrientation] = useState("portrait");
+
+  // INIT
+  useEffect(() => {
+    function handleRotation() {
+      setOrientation(screen.orientation.type);
+    }
+    screen.orientation.addEventListener("change", handleRotation);
+    return () => {
+      screen.orientation.removeEventListener("change", handleRotation);
+    };
+  }, []);
+
   return (
-    <div className="h-dvh flex flex-col items-center justify-center relative overflow-hidden w-full">
+    <div
+      className={`mainContainer w-full items-center justify-center flex flex-col relative overflow-hidden  ${
+        orientation === "portrait" || orientation === "portrait-primary" ? "h-dvh" : "max-h-min"
+      }`}
+    >
       <div
-        className="absolute w-96 h-96 rounded-full top-10 left-5 pointer-events-none"
+        className="fixed w-screen h-screen rounded-full pointer-events-none"
         style={{
-          background:
-            "radial-gradient(circle, rgba(255,165,0,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,165,0,0.12) 0%, transparent 70%)",
         }}
       />
       <div
-        className="absolute w-72 h-72 rounded-full bottom-16 right-8 pointer-events-none"
+        className="fixed translate-y-75 w-screen h-screen rounded-full pointer-events-none "
         style={{
-          background:
-            "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
         }}
       />
 
       <h1 className="text-5xl font-bold mb-4 tracking-tight">FloatingFrame</h1>
-      <p className="text-lg opacity-70 mb-12 tracking-widest">
-        Netzwerk Visualisierung
-      </p>
+      <p className="text-lg opacity-70 mb-12 tracking-widest">Netzwerk Visualisierung</p>
 
       <div className="flex flex-col gap-10">
         <button
@@ -71,14 +84,12 @@ export default function FloatingStart() {
               <br />
               2. Wie verwende ich den Scanner?
               <br />
-              Klicke auf "Scanner starten" und halte die Kamera auf einen
-              QR-Code.
+              Klicke auf "Scanner starten" und halte die Kamera auf einen QR-Code.
               <br />
               <br />
               3. Welche Geräte werden unterstützt?
               <br />
-              FloatingFrame läuft auf allen modernen Geräten mit einem aktuellen
-              Browser.
+              FloatingFrame läuft auf allen modernen Geräten mit einem aktuellen Browser.
             </p>
 
             <button
