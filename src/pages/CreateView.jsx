@@ -1,35 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
-import { AssetResponseContext } from "../contexts/AssetResponseContext";
-import { assetService } from "../services/assetService";
+import { useState, useEffect } from "react";
+import { CreateViewSchema } from "../data/CreateViewSchema.jsx";
+import { createAssetService } from "../services/createAssetService.js";
 import { ArrowLeft, Save } from "lucide-react";
 
-// Schema
-const schema = {
-  computer: [
-    "manufacturer",
-    "hostname",
-    "ip_address",
-    "mac_address",
-    "cpu_name",
-    "ram_size",
-    "storage_size",
-  ],
-  switch: ["hostname", "port", "room", "qr_code_id"],
-  monitor: [
-    "manufacturer",
-    "screen_diagonal",
-    "screen_resolution",
-    "refresh_rate",
-    "qr_code_id",
-  ],
-};
+const schema = CreateViewSchema;
 
 export default function CreateView() {
   const { type } = useParams();
   const navigate = useNavigate();
-
-  const { setAssetResponseArray } = useContext(AssetResponseContext);
 
   const fields = schema[type] || [];
   const [formData, setFormData] = useState({});
@@ -43,24 +22,10 @@ export default function CreateView() {
     }));
   };
 
-  // CREATE
-  const handleCreate = async () => {
-    try {
-      const res = await fetch(`https://localhost:3000/api/${type}/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        throw new Error("Create failed");
-      }
-
-      navigate("/Assetverwaltung"); // einfach zurück
-    } catch (err) {
-      console.error("Create failed:", err);
+  const handleCreate = () => {
+    const res = createAssetService(type, formData);
+    if (res.ok) {
+      navigate("/Assetverwaltung");
     }
   };
 
@@ -68,27 +33,20 @@ export default function CreateView() {
     navigate(-1);
   };
 
-  // INIT
   useEffect(() => {
-    const load = async () => {
-      function handleRotation() {
-        setOrientation(screen.orientation.type);
-      }
-      screen.orientation.addEventListener("change", handleRotation);
-      return () => {
-        screen.orientation.removeEventListener("change", handleRotation);
-      };
+    function handleRotation() {
+      setOrientation(screen.orientation.type);
+    }
+    screen.orientation.addEventListener("change", handleRotation);
+    return () => {
+      screen.orientation.removeEventListener("change", handleRotation);
     };
-
-    load();
   }, []);
 
   return (
     <div
       className={`mainContainer w-full  ${
-        orientation === "portrait" || orientation === "portrait-primary"
-          ? "h-dvh"
-          : "max-h-min"
+        orientation === "portrait" || orientation === "portrait-primary" ? "h-dvh" : "max-h-min"
       }`}
     >
       <div className="p-6 max-w-xl mx-auto">
@@ -97,9 +55,7 @@ export default function CreateView() {
         <div className="space-y-3">
           {fields.map((field) => (
             <div key={field} className="flex flex-col">
-              <label className="font-bold capitalize">
-                {field.replaceAll("_", " ")}
-              </label>
+              <label className="font-bold capitalize">{field.replaceAll("_", " ")}</label>
 
               <input
                 className="border p-2 rounded"

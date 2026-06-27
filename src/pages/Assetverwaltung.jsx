@@ -15,39 +15,36 @@ export default function Assetverwaltung() {
 
   const navigate = useNavigate();
 
-  const { tagResponseArray, setTagResponseArray } =
-    useContext(TagResponseContext);
+  const { tagResponseArray, setTagResponseArray } = useContext(TagResponseContext);
 
-  const { assetResponseArray, setAssetResponseArray } =
-    useContext(AssetResponseContext);
+  const { assetResponseArray, setAssetResponseArray } = useContext(AssetResponseContext);
 
   const navigateToAsset = (asset) => {
     navigate(`/EditView/${asset.type.toLowerCase()}/${asset.id}`);
   };
   const [orientation, setOrientation] = useState("portrait");
 
-  // INIT
   useEffect(() => {
     const load = async () => {
       await assetService(setAssetResponseArray);
       await tagService(setTagResponseArray);
-      function handleRotation() {
-        setOrientation(screen.orientation.type);
-      }
-      screen.orientation.addEventListener("change", handleRotation);
-      return () => {
-        screen.orientation.removeEventListener("change", handleRotation);
-      };
     };
-
     load();
-  }, []);
+  });
 
-  // FILTER
+  useEffect(() => {
+    function handleRotation() {
+      setOrientation(screen.orientation.type);
+    }
+    screen.orientation.addEventListener("change", handleRotation);
+    return () => {
+      screen.orientation.removeEventListener("change", handleRotation);
+    };
+  });
+
   const filteredAssets = assetResponseArray?.filter((asset) => {
     const matchesSearch =
-      !searchInput ||
-      asset.type?.toLowerCase().includes(searchInput.toLowerCase());
+      !searchInput || asset.type?.toLowerCase().includes(searchInput.toLowerCase());
 
     const matchesTag =
       selectedTag === null ||
@@ -67,21 +64,16 @@ export default function Assetverwaltung() {
 
   return (
     <div
-      className={`mainContainer w-full  ${
-        orientation === "portrait" || orientation === "portrait-primary"
-          ? "h-dvh"
-          : "max-h-min"
-      }`}
+      className={`w-full ${orientation === "portrait-secondary" || orientation === "portrait-primary" ? "h-dvh overflow-hidden" : orientation === "landscape-secondary" || orientation === "landscape-primary" ? "min-h-dvh overflow-y-scroll" : "h-dvh overflow-auto"} flex flex-col `}
     >
       <div
-        className="fixed w-screen h-screen  rounded-full  pointer-events-none"
+        className="fixed inset-0 rounded-full pointer-events-none"
         style={{
-          background:
-            "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
         }}
       />
 
-      <div className="p-4">
+      <div className="searchbar_tags_container p-4">
         <Searchbar value={searchInput} onChange={setSearchInput} />
 
         <div className="flex flex-wrap gap-2 mt-2 justify-center">
@@ -102,14 +94,16 @@ export default function Assetverwaltung() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4 p-4">
-        {sortedAssets.map((asset) => (
-          <AssetCard
-            key={`${asset.type}-${asset.id}`}
-            asset={asset}
-            onClick={() => navigateToAsset(asset, asset.id)}
-          />
-        ))}
+      <div className="flex-1 overflow-y-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4">
+          {sortedAssets.map((asset) => (
+            <AssetCard
+              key={`${asset.type}-${asset.id}`}
+              asset={asset}
+              onClick={() => navigateToAsset(asset)}
+            />
+          ))}
+        </div>
       </div>
 
       <CreateAssetMenu />

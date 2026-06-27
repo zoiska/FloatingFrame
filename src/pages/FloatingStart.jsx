@@ -10,46 +10,36 @@ export default function FloatingStart() {
 
   // INIT
   useEffect(() => {
-    const load = async () => {
-      function handleRotation() {
-        setOrientation(screen.orientation.type);
-      }
-      screen.orientation.addEventListener("change", handleRotation);
-      return () => {
-        screen.orientation.removeEventListener("change", handleRotation);
-      };
+    function handleRotation() {
+      setOrientation(screen.orientation.type);
+    }
+    screen.orientation.addEventListener("change", handleRotation);
+    return () => {
+      screen.orientation.removeEventListener("change", handleRotation);
     };
-
-    load();
   }, []);
 
   return (
     <div
       className={`mainContainer w-full items-center justify-center flex flex-col relative overflow-hidden  ${
-        orientation === "portrait" || orientation === "portrait-primary"
-          ? "h-dvh"
-          : "max-h-min"
+        orientation === "portrait" || orientation === "portrait-primary" ? "h-dvh" : "max-h-min"
       }`}
     >
       <div
         className="fixed w-screen h-screen rounded-full pointer-events-none"
         style={{
-          background:
-            "radial-gradient(circle, rgba(255,165,0,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,165,0,0.12) 0%, transparent 70%)",
         }}
       />
       <div
         className="fixed translate-y-75 w-screen h-screen rounded-full pointer-events-none "
         style={{
-          background:
-            "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
         }}
       />
 
       <h1 className="text-5xl font-bold mb-4 tracking-tight">FloatingFrame</h1>
-      <p className="text-lg opacity-70 mb-12 tracking-widest">
-        Netzwerk Visualisierung
-      </p>
+      <p className="text-lg opacity-70 mb-12 tracking-widest">Netzwerk Visualisierung</p>
 
       <div className="flex flex-col gap-10">
         <button
@@ -94,14 +84,12 @@ export default function FloatingStart() {
               <br />
               2. Wie verwende ich den Scanner?
               <br />
-              Klicke auf "Scanner starten" und halte die Kamera auf einen
-              QR-Code.
+              Klicke auf "Scanner starten" und halte die Kamera auf einen QR-Code.
               <br />
               <br />
               3. Welche Geräte werden unterstützt?
               <br />
-              FloatingFrame läuft auf allen modernen Geräten mit einem aktuellen
-              Browser.
+              FloatingFrame läuft auf allen modernen Geräten mit einem aktuellen Browser.
             </p>
 
             <button

@@ -25,33 +25,25 @@ export default function ScannedList() {
 
   return (
     <div
-      className={`mainContainer w-full  ${
-        orientation === "portrait" || orientation === "portrait-primary"
-          ? "h-dvh"
-          : "max-h-min"
+      className={`mainContainer overflow-hidden w-full ${
+        orientation === "portrait" || orientation === "portrait-primary" ? "h-dvh" : "max-h-min"
       }`}
     >
       <Header />
 
       <div
-        className="fixed w-screen h-screen rounded-full pointer-events-none"
+        className="fixed inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(circle, rgba(251,146,60,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(251,146,60,0.12) 0%, transparent 70%)",
         }}
       />
 
-      <div className="pt-12 flex flex-col gap-2 items-center w-full h-full">
-        {scannedCodesArray.map((object, objectIndex) => {
-          //const type = object.type;
-
-          //const remUnderscores = type.replaceAll("_", " ");
-          //const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
-
-          return (
+      <div className="pt-12 h-full">
+        <div className="flex flex-col items-center gap-2 w-full">
+          {scannedCodesArray.map((object, objectIndex) => (
             <div
               key={objectIndex}
-              className="flex gap-3 bg-transparent border border-brand-blue w-4/5 min-h-12 rounded-lg 
+              className="flex gap-3 bg-transparent border border-brand-blue w-4/5 min-h-12 rounded-lg
               items-center p-3 hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
               onClick={() => navigate(`/FloatingFrame/${objectIndex}`)}
             >
@@ -80,8 +72,8 @@ export default function ScannedList() {
                 </span>
               </div>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
     </div>
   );
