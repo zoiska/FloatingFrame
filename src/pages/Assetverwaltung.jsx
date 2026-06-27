@@ -1,89 +1,112 @@
-// --- IMPORTS ---
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AssetCard from "../components/AssetCard";
 import FilterTag from "../components/FilterTag";
 import Searchbar from "../components/Searchbar";
+import CreateAssetMenu from "../components/CreateAssetMenu";
 import { AssetResponseContext } from "../contexts/AssetResponseContext";
 import { TagResponseContext } from "../contexts/TagResponseContext";
 import { assetService } from "../services/assetService";
 import { tagService } from "../services/tagService";
-import { useNavigate } from "react-router-dom";
 
 export default function Assetverwaltung() {
   const [searchInput, setSearchInput] = useState(null);
   const [selectedTag, setSelectedTag] = useState(null);
-  const { tagResponseArray, setTagResponseArray } =
-    useContext(TagResponseContext);
-  const { assetResponseArray, setAssetResponseArray } =
-    useContext(AssetResponseContext);
+
   const navigate = useNavigate();
 
-  // --- INITIAL LOAD ---
+  const { tagResponseArray, setTagResponseArray } = useContext(TagResponseContext);
+
+  const { assetResponseArray, setAssetResponseArray } = useContext(AssetResponseContext);
+
+  const navigateToAsset = (asset) => {
+    navigate(`/EditView/${asset.type.toLowerCase()}/${asset.id}`);
+  };
+  const [orientation, setOrientation] = useState("portrait");
+
   useEffect(() => {
-    assetService(setAssetResponseArray);
-    tagService(setTagResponseArray);
-  }, []);
+    const load = async () => {
+      await assetService(setAssetResponseArray);
+      await tagService(setTagResponseArray);
+    };
+    load();
+  });
 
-  // --- SEARCHBAR & TAGS ---
-  // Shows all assets, if the input is empty
-  // compares the input with "asset.type"
+  useEffect(() => {
+    function handleRotation() {
+      setOrientation(screen.orientation.type);
+    }
+    screen.orientation.addEventListener("change", handleRotation);
+    return () => {
+      screen.orientation.removeEventListener("change", handleRotation);
+    };
+  });
+
   const filteredAssets = assetResponseArray?.filter((asset) => {
-    // Suchfilter
     const matchesSearch =
-      !searchInput ||
-      asset.type?.toLowerCase().includes(searchInput.toLowerCase());
+      !searchInput || asset.type?.toLowerCase().includes(searchInput.toLowerCase());
 
-    // Tagfilter
-    const matchesTag = !selectedTag || asset.qr_code_id === selectedTag;
+    const matchesTag =
+      selectedTag === null ||
+      selectedTag === undefined ||
+      asset.qr_code_id === selectedTag ||
+      (selectedTag === "none" && !asset.qr_code_id);
 
     return matchesSearch && matchesTag;
   });
 
-  // Navigate to Assetmanagement
-  const navigateToAsset = (asset) => {
-    navigate(`/EditView/${asset.type.toLowerCase()}/${asset.id}`);
-  };
+  const sortedAssets = [...(filteredAssets || [])].sort((a, b) => {
+    const nameA = `${a.type}-${a.id}`.toLowerCase();
+    const nameB = `${b.type}-${b.id}`.toLowerCase();
 
-  // Called by the searchbar, if the user taps something
-  // Saves the current input in "searchInput"
-  const setSearchbarInput = (value) => {
-    setSearchInput(value);
-  };
+    return nameA.localeCompare(nameB);
+  });
 
-  // --- OUTPUT ---
   return (
-    <div className="p-4">
-      {/* searchInput */}
-      <Searchbar value={searchInput} onChange={setSearchbarInput} />
+    <div
+      className={`w-full ${orientation === "portrait-secondary" || orientation === "portrait-primary" ? "h-dvh overflow-hidden" : orientation === "landscape-secondary" || orientation === "landscape-primary" ? "min-h-dvh overflow-y-scroll" : "h-dvh overflow-auto"} flex flex-col `}
+    >
+      <div
+        className="fixed inset-0 rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
+        }}
+      />
 
-      {/* FILTERTAGS */}
-      <div className="flex flex-wrap gap-2 mt-2 justify-center">
-        <FilterTag
-          label="Alle"
-          active={selectedTag === null}
-          onClick={() => setSelectedTag(null)}
-        />
+      <div className="searchbar_tags_container p-4">
+        <Searchbar value={searchInput} onChange={setSearchInput} />
 
-        {tagResponseArray?.map((tag) => (
+        <div className="flex flex-wrap gap-2 mt-2 justify-center">
           <FilterTag
-            key={tag.id}
-            label={tag.room_name}
-            active={selectedTag === tag.id}
-            onClick={() => setSelectedTag(tag.id)}
+            label="Alle"
+            active={selectedTag === null}
+            onClick={() => setSelectedTag(null)}
           />
-        ))}
+
+          {tagResponseArray?.map((tag) => (
+            <FilterTag
+              key={tag.id}
+              label={tag.room_name}
+              active={selectedTag === tag.id}
+              onClick={() => setSelectedTag(tag.id)}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* GRID */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-        {filteredAssets?.map((asset, index) => (
-          <AssetCard
-            key={index}
-            asset={asset}
-            onClick={() => navigateToAsset(asset, index)}
-          />
-        ))}
+      <div className="flex-1 overflow-y-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4">
+          {sortedAssets.map((asset) => (
+            <AssetCard
+              key={`${asset.type}-${asset.id}`}
+              asset={asset}
+              onClick={() => navigateToAsset(asset)}
+            />
+          ))}
+        </div>
       </div>
+
+      <CreateAssetMenu />
     </div>
   );
 }

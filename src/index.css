@@ -2,10 +2,11 @@
 
 @theme {
   --color-brand-bg: #0f172a;
-  --color-brand-blue: #93c5fd;
-  --color-brand-green: #86efac;
-  --color-brand-red: #f87171;
-  --color-brand-yellow: #facc15;
+  --color-brand-blue: hsl(213, 60%, 80%);
+  --color-brand-grey: #6b7280;
+  --color-brand-white: #ffffff;
+  --color-brand-black: #000000;
+  --color-brand-orange: hsl(27, 60%, 61%);
 }
 
 @font-face {
@@ -16,11 +17,14 @@
   src: url("../assets/HELVETICASCHOOL.TTF") format("truetype");
 }
 
-html {
+html,
+body,
+#root {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #0f172a;
+  background-color: #000000;
   color: white;
+  user-select: none;
 }

@@ -53,7 +53,7 @@ export default function App() {
       </div>
       <div
         className={`detailsContainer h-5/10 w-full wrap-anywhere overflow-auto
-        bottom-0 left-0 right-0
+        bottom-0 left-0 right-0 text-xl text-brand-white
 
         transform transition-all duration-500 ease-out
 
@@ -68,8 +68,8 @@ export default function App() {
 
               return (
                 <div key={key}>
-                  <span className="font-bold text-brand-blue">{newLabel}:</span>{" "}
-                  <span>{String(value)}</span>
+                  <span className="key_span font-bold text-brand-blue text-base">{newLabel}:</span>{" "}
+                  <span className="value_span text-base">{String(value)}</span>
                 </div>
               );
             })}

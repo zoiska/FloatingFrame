@@ -11,7 +11,7 @@ export default function Searchbar({ value, onChange }) {
         <input
           className="w-full pl-10 pr-4 py-2 border rounded-full bg-white text-black"
           type="text"
-          placeholder="Search for assets ..."
+          placeholder="Suche nach Assets ..."
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />

@@ -7,7 +7,7 @@ import { Laptop, Monitor, Network } from "lucide-react";
 export default function ScannedList() {
   const { scannedCodesArray } = useContext(ScannedCodesArrayContext);
 
-  let [orientation, setOrientation] = useState("portrait");
+  const [orientation, setOrientation] = useState("portrait");
 
   const navigate = useNavigate();
 
@@ -25,49 +25,55 @@ export default function ScannedList() {
 
   return (
     <div
-      className={`mainContainer w-full  ${
+      className={`mainContainer overflow-hidden w-full ${
         orientation === "portrait" || orientation === "portrait-primary" ? "h-dvh" : "max-h-min"
       }`}
     >
       <Header />
 
-      <div className="pt-12 flex flex-col gap-2 items-center w-full h-full">
-        {scannedCodesArray.map((object, objectIndex) => {
-          //const type = object.type;
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(251,146,60,0.12) 0%, transparent 70%)",
+        }}
+      />
 
-          //const remUnderscores = type.replaceAll("_", " ");
-          //const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
-
-          return (
+      <div className="pt-12 h-full">
+        <div className="flex flex-col items-center gap-2 w-full">
+          {scannedCodesArray.map((object, objectIndex) => (
             <div
               key={objectIndex}
-              className="flex gap-2 border border-blue-300 w-4/5 h-10 rounded  items-center p-3"
+              className="flex gap-3 bg-transparent border border-brand-blue w-4/5 min-h-12 rounded-lg
+              items-center p-3 hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
               onClick={() => navigate(`/FloatingFrame/${objectIndex}`)}
             >
-              <span>
+              <span className="text-brand-blue">
                 {object.type === "computer" ? (
-                  <Laptop />
+                  <Laptop size={26} strokeWidth={2.5} />
                 ) : object.type === "monitor" ? (
-                  <Monitor />
+                  <Monitor size={26} strokeWidth={2.5} />
                 ) : object.type === "switch" ? (
-                  <Network />
+                  <Network size={26} strokeWidth={2.5} />
                 ) : (
-                  "An error occurred"
+                  "?"
                 )}
               </span>
-              <span>
-                {(object.hostname ?? object.screen_diagonal + " Zoll") +
-                  (object.ram_size
-                    ? ", " + object.ram_size + " GB"
-                    : object.refresh_rate
-                      ? ", " + object.refresh_rate + " Hz"
-                      : "") +
-                  (object.manufacturer ? ", " + object.manufacturer : "") +
-                  (object.type === "switch" ? ", Port: " + object.port : "")}
-              </span>
+
+              <div className="bg-transparent rounded-md px-2 py-1">
+                <span className="text-brand-blue font-medium">
+                  {(object.hostname ?? object.screen_diagonal + " Zoll") +
+                    (object.ram_size
+                      ? ", " + object.ram_size + " GB"
+                      : object.refresh_rate
+                        ? ", " + object.refresh_rate + " Hz"
+                        : "") +
+                    (object.manufacturer ? ", " + object.manufacturer : "") +
+                    (object.type === "switch" ? ", Port: " + object.port : "")}
+                </span>
+              </div>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
     </div>
   );
