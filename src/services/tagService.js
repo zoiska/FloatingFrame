@@ -9,13 +9,11 @@ export async function tagService(setTagResponseArray) {
     if (!res.ok) {
       const error = await res.json();
       console.error("API Error:", res.status, error);
-      return;
+    } else {
+      const data = await res.json();
+      console.log("Successfully loaded tags:", data);
+      setTagResponseArray(data);
     }
-
-    const data = await res.json();
-    console.log("PASSED:", data);
-
-    setTagResponseArray(data);
   } catch (err) {
     console.error("Network error:", err);
   }
