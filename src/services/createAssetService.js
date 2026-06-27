@@ -1,8 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL;
-
 export async function createAssetService(type, formData) {
   try {
-    const res = await fetch(`${API_URL}/api/${type}/`, {
+    const res = await fetch(`/api/${type}/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,9 +1,8 @@
 // ping backend to get data from a the num provided by scanning a qr code
-const API_URL = import.meta.env.VITE_API_URL;
 
 export async function qrCodeService(setScannedCodesArray, code) {
   try {
-    const res = await fetch(`${API_URL}/api/assets/${code}`);
+    const res = await fetch(`/api/assets/${code}`);
     if (!res.ok) {
       //TODO: user über error berichten undso
       console.log(res.status);
