@@ -30,7 +30,7 @@ export default function Assetverwaltung() {
       await tagService(setTagResponseArray);
     };
     load();
-  });
+  }, []);
 
   useEffect(() => {
     function handleRotation() {

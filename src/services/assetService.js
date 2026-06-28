@@ -9,12 +9,11 @@ export async function assetService(setAssetResponseArray) {
       const error = await res.json();
       console.error("API Error:", res.status, error);
       return;
+    } else {
+      const data = await res.json();
+      console.log("Successfully fetched asssets from server:", data);
+      setAssetResponseArray(data);
     }
-
-    const data = await res.json();
-    console.log("PASSED:", data);
-
-    setAssetResponseArray(data);
   } catch (err) {
     console.error("Network error:", err);
   }
