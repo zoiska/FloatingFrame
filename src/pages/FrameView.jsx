@@ -62,17 +62,21 @@ export default function App() {
       >
         {selectedAsset && (
           <pre className="whitespace-break-spaces p-2">
-            {Object.entries(selectedAsset).map(([key, value]) => {
-              const remUnderscores = key.replaceAll("_", " ");
-              const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
+            {Object.entries(selectedAsset)
+              .filter(([_, value]) => value !== null)
+              .map(([key, value]) => {
+                const remUnderscores = key.replaceAll("_", " ");
+                const newLabel = remUnderscores.charAt(0).toUpperCase() + remUnderscores.slice(1);
 
-              return (
-                <div key={key}>
-                  <span className="key_span font-bold text-brand-blue text-base">{newLabel}:</span>{" "}
-                  <span className="value_span text-base">{String(value)}</span>
-                </div>
-              );
-            })}
+                return (
+                  <div key={key}>
+                    <span className="key_span font-bold text-brand-blue text-base">
+                      {newLabel}:
+                    </span>{" "}
+                    <span className="value_span text-base">{String(value)}</span>
+                  </div>
+                );
+              })}
           </pre>
         )}
       </div>

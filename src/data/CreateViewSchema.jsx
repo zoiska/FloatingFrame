@@ -7,6 +7,7 @@ export const CreateViewSchema = {
     "cpu_name",
     "ram_size",
     "storage_size",
+    "qr_code_id",
   ],
   switch: ["hostname", "port", "room", "qr_code_id"],
   monitor: ["manufacturer", "screen_diagonal", "screen_resolution", "refresh_rate", "qr_code_id"],
