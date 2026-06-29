@@ -1,10 +1,12 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export async function editAssetService(formData, setAssetResponseArray, type, id) {
   try {
     const cleanedData = Object.fromEntries(
       Object.entries(formData).filter(([_, value]) => value != null),
     );
 
-    const res = await fetch(`/api/${type}/${id}`, {
+    const res = await fetch(`${API_URL}/api/${type}/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

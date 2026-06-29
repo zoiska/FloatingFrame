@@ -1,5 +1,3 @@
-const API_URL = import.meta.env.VITE_API_URL;
-
 export async function deleteAssetService(type, id) {
   try {
     const res = await fetch(`/api/${type}/${id}`, {
