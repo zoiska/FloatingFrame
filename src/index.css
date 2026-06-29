@@ -7,6 +7,7 @@
   --color-brand-white: #ffffff;
   --color-brand-black: #000000;
   --color-brand-orange: hsl(27, 60%, 61%);
+  --color-brand-red: #ff0000;
 }
 
 @font-face {
