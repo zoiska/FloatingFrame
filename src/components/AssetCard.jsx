@@ -8,7 +8,14 @@ const icons = {
 
 export default function AssetCard({ asset, onClick }) {
   const name = asset?.type ? `${asset.type}-${asset.id}` : "Unbekannt";
-  const hostname = asset?.hostname || "Unbekannt";
+  const hostname =
+    asset.type === "computer"
+      ? asset.hostname
+      : asset.type === "monitor"
+        ? asset.screen_resolution
+        : asset.type === "switch"
+          ? asset.hostname
+          : "Unbekannt";
   const Icon = icons[asset?.type?.toLowerCase()];
 
   return (
