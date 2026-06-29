@@ -32,7 +32,7 @@ export default function DeleteConfirmationPopup({ setter, type, id, deleteAssetS
         </button>
 
         <button
-          className="flex items-center gap-2 bg-transparent text-brand-blue border border-brand-blue px-4 py-2 rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
+          className="flex items-center gap-2 bg-transparent text-brand-orange border border-brand-orange px-4 py-2 rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200"
           onClick={handleAbort}
         >
           <ArrowLeft className="w-5 h-5" /> Abbrechen
